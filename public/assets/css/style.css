@@ -1,0 +1,281 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --primary: #7b1e2b;
+  --primary-light: #9b3545;
+  --primary-dark: #5b0e1b;
+  --bg-light: #fdf8f8;
+  --bg-dark: #1a1a2e;
+  --card-light: #ffffff;
+  --card-dark: #252542;
+  --text-light: #2d2d2d;
+  --text-dark: #f5f5f5;
+  --text-muted-light: #6b6b6b;
+  --text-muted-dark: #a0a0a0;
+}
+
+.theme-navy {
+  --primary: #1e3a5f;
+  --primary-light: #2e5a8f;
+  --primary-dark: #0e2a4f;
+}
+
+.dark-mode {
+  --bg: var(--bg-dark);
+  --card: var(--card-dark);
+  --text: var(--text-dark);
+  --text-muted: var(--text-muted-dark);
+}
+
+.light-mode {
+  --bg: var(--bg-light);
+  --card: var(--card-light);
+  --text: var(--text-light);
+  --text-muted: var(--text-muted-light);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.card-bg {
+  background: var(--card);
+  transition: all 0.3s ease;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.primary-bg {
+  background: var(--primary);
+}
+
+.primary-bg-light {
+  background: var(--primary-light);
+}
+
+.primary-text {
+  color: var(--primary);
+}
+
+.carousel-container {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: auto;
+  user-select: none;
+}
+
+.carousel-container:hover {
+  cursor: grab;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-container.grabbing {
+  cursor: grabbing;
+}
+
+.carousel-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.chat-bubble-user {
+  background: var(--primary);
+  color: white;
+  border-radius: 20px 20px 4px 20px;
+}
+
+.chat-bubble-ai {
+  background: var(--card);
+  border: 1px solid rgba(123, 30, 43, 0.2);
+  border-radius: 20px 20px 20px 4px;
+}
+
+.bottom-nav {
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(123, 30, 43, 0.15);
+}
+
+.quick-chip {
+  transition: all 0.2s ease;
+}
+
+.quick-chip:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.drawer-backdrop {
+  animation: fadeIn 0.2s ease;
+}
+
+.drawer-panel {
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-12px);
+    opacity: 0.7;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-nav {
+    display: none;
+  }
+
+  .desktop-sidebar {
+    display: flex;
+  }
+
+  #page-chat {
+    position: relative;
+  }
+
+  #page-chat > div:last-child {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .mobile-nav {
+    display: flex;
+  }
+
+  .desktop-sidebar {
+    display: none;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.add-item-section {
+  background: var(--card);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .add-item-section {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pulse-dot {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 8px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  animation: typingAnimation 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+  0%,
+  60%,
+  100% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+}
+
+.image-modal {
+  animation: fadeIn 0.2s ease;
+}
+
+.image-modal-backdrop {
+  animation: fadeIn 0.2s ease;
+}
+
+.image-modal-content {
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

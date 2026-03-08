@@ -1,0 +1,15 @@
+CRITICAL - 2026-03-08 22:48:27 --> ErrorException: Undefined variable $menu
+[Method: GET, Route: /]
+in APPPATH\Views\template\header.php on line 77.
+ 1 APPPATH\Views\template\header.php(77): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $menu', 'E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\template\\header.php', 77)
+ 2 SYSTEMPATH\View\View.php(226): include('E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\template\\header.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('template/header', [], true)
+ 5 APPPATH\Controllers\Summary.php(13): view('template/header')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Summary->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Summary))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')

@@ -1,0 +1,1758 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Style Advisor</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    
+    :root {
+      --primary: #7B1E2B;
+      --primary-light: #9B3545;
+      --primary-dark: #5B0E1B;
+      --bg-light: #FDF8F8;
+      --bg-dark: #1A1A2E;
+      --card-light: #FFFFFF;
+      --card-dark: #252542;
+      --text-light: #2D2D2D;
+      --text-dark: #F5F5F5;
+      --text-muted-light: #6B6B6B;
+      --text-muted-dark: #A0A0A0;
+    }
+    
+    .theme-navy {
+      --primary: #1E3A5F;
+      --primary-light: #2E5A8F;
+      --primary-dark: #0E2A4F;
+    }
+    
+    .dark-mode {
+      --bg: var(--bg-dark);
+      --card: var(--card-dark);
+      --text: var(--text-dark);
+      --text-muted: var(--text-muted-dark);
+    }
+    
+    .light-mode {
+      --bg: var(--bg-light);
+      --card: var(--card-light);
+      --text: var(--text-light);
+      --text-muted: var(--text-muted-light);
+    }
+    
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+    
+    .card-bg {
+      background: var(--card);
+      transition: all 0.3s ease;
+    }
+    
+    .text-muted {
+      color: var(--text-muted);
+    }
+    
+    .primary-bg {
+      background: var(--primary);
+    }
+    
+    .primary-bg-light {
+      background: var(--primary-light);
+    }
+    
+    .primary-text {
+      color: var(--primary);
+    }
+    
+    .carousel-container {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: auto;
+      user-select: none;
+    }
+
+    .carousel-container:hover {
+      cursor: grab;
+    }
+    
+    .carousel-container::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .carousel-container.grabbing {
+      cursor: grabbing;
+    }
+    
+    .carousel-item {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+    
+    .chat-bubble-user {
+      background: var(--primary);
+      color: white;
+      border-radius: 20px 20px 4px 20px;
+    }
+    
+    .chat-bubble-ai {
+      background: var(--card);
+      border: 1px solid rgba(123, 30, 43, 0.2);
+      border-radius: 20px 20px 20px 4px;
+    }
+    
+    .bottom-nav {
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(123, 30, 43, 0.15);
+    }
+    
+    .quick-chip {
+      transition: all 0.2s ease;
+    }
+    
+    .quick-chip:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    @media (min-width: 1024px) {
+      .mobile-nav { display: none; }
+      .desktop-sidebar { display: flex; }
+      #page-chat {
+        position: relative;
+      }
+      #page-chat > div:last-child {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+    
+    @media (max-width: 1023px) {
+      .mobile-nav { display: flex; }
+      .desktop-sidebar { display: none; }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .add-item-section {
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode .add-item-section {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 8px;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.6;
+      animation: typingAnimation 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingAnimation {
+      0%, 60%, 100% {
+        opacity: 0.6;
+        transform: translateY(0);
+      }
+      30% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+    }
+
+    .image-modal {
+      animation: fadeIn 0.2s ease;
+    }
+
+    .image-modal-backdrop {
+      animation: fadeIn 0.2s ease;
+    }
+
+    .image-modal-content {
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full light-mode">
+  <div id="app" class="h-full flex flex-col lg:flex-row overflow-hidden"><!-- Desktop Sidebar -->
+   <aside class="desktop-sidebar hidden lg:flex flex-col w-72 h-full primary-bg text-white p-6">
+    <div class="flex items-center gap-3 mb-10">
+     <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center"><i class="fas fa-check-circle text-white text-lg"></i>
+     </div>
+     <div>
+      <h1 class="text-xl font-bold">AI Style</h1>
+      <p class="text-xs opacity-80">Advisor</p>
+     </div>
+    </div>
+    <nav class="flex-1 space-y-2"><button onclick="showPage('home')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10" data-page="home"> <i class="fas fa-home text-lg flex-shrink-0"></i>
+      <div class="text-left">
+       <span class="font-medium block">Home</span><span class="text-xs opacity-70">Dashboard</span>
+      </div></button> <button onclick="showPage('chat')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10" data-page="chat"> <i class="fas fa-comments text-lg flex-shrink-0"></i>
+      <div class="text-left">
+       <span class="font-medium block">Chat with AI</span><span class="text-xs opacity-70">Cari referensi dengan AI</span>
+      </div></button> <button onclick="showPage('settings')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10" data-page="settings"> <i class="fas fa-gear text-lg flex-shrink-0"></i>
+      <div class="text-left">
+       <span class="font-medium block">Settings</span><span class="text-xs opacity-70">Aplikasi dan Akun</span>
+      </div></button>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/20">
+     <div class="flex items-center gap-3"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;crop=face" alt="Profile" class="w-10 h-10 rounded-full object-cover" loading="lazy" onerror="this.style.background='#9B3545'; this.alt='User';">
+      <div class="flex-1 min-w-0">
+       <p class="font-medium text-sm truncate" id="sidebar-username">Maulana Saepul Akbar</p>
+       <p class="text-xs opacity-70">Premium Member</p>
+      </div>
+     </div>
+    </div>
+   </aside><!-- Main Content Area -->
+   <main class="flex-1 flex flex-col h-full overflow-hidden"><!-- Mobile Header -->
+    <header class="lg:hidden primary-bg text-white px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><i class="fas fa-check-circle text-white"></i>
+      </div><span class="font-bold text-lg">AI Style Advisor</span>
+     </div><button onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"> <i id="theme-icon-mobile" class="fas fa-sun text-white"></i></button>
+    </header><!-- Page Content -->
+    <div class="flex-1 overflow-y-auto"><!-- CHAT BACK BUTTON HEADER (Mobile Only) -->
+     <div id="chat-header-mobile" class="lg:hidden hidden card-bg border-b px-4 py-3 flex items-center gap-3 sticky top-0 z-10">
+      <button onclick="backToChatHistory()" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"> <i class="fas fa-arrow-left text-lg"></i> </button>
+      <div class="flex-1">
+       <h3 class="font-semibold">AI Style Assistant</h3>
+       <p class="text-xs text-muted flex items-center gap-1"><span class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span> Online</p>
+      </div>
+     </div><!-- HOME PAGE -->
+     <div id="page-home" class="page-content p-4 lg:p-8 fade-in"><!-- Welcome Card -->
+      <div class="primary-bg rounded-3xl p-6 lg:p-8 text-white mb-6 relative overflow-hidden">
+       <div class="absolute top-5 right-5 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+       <div class="absolute bottom-5 left-5 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+       <div class="relative flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-6"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&amp;h=200&amp;fit=crop&amp;crop=face" alt="User Avatar" class="w-20 h-20 lg:w-24 lg:h-24 rounded-2xl object-cover border-4 border-white/30 shadow-lg" loading="lazy" onerror="this.style.background='#9B3545'; this.alt='User Avatar';">
+        <div class="text-center lg:text-left flex-1">
+         <p class="text-sm opacity-80 mb-1" id="greeting-display">👋 Apa kabar?</p>
+         <h2 class="text-2xl lg:text-3xl font-bold mb-2">Welcome, <span id="username-display">Maulana Saepul Akbar</span></h2>
+         <p class="opacity-90 text-sm lg:text-base">Mau pergi ke mana hari ini? Mau pakai outfit apa?</p>
+         <div class="mt-4 flex flex-wrap gap-2 justify-center lg:justify-start"><span class="px-3 py-1 bg-white/20 rounded-full text-xs">🌤️ 28°C Cerah</span> <span class="px-3 py-1 bg-white/20 rounded-full text-xs">📅 Rabu</span>
+         </div>
+        </div>
+       </div>
+      </div><!-- Outfit Recommendations Carousel -->
+      <div class="mb-8">
+       <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold">Outfit Recommendations</h3><button class="primary-text text-sm font-medium hover:underline">See All →</button>
+       </div>
+       <div class="carousel-container flex gap-4 pb-4 -mx-4 px-4"><!-- Kondangan -->
+        <div class="carousel-item w-64 lg:w-72 flex-shrink-0">
+         <div class="card-bg rounded-2xl overflow-hidden shadow-lg feature-card h-80">
+          <div class="h-48 relative"><img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&amp;h=300&amp;fit=crop" alt="Kondangan Outfit" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #7B1E2B, #9B3545)'; this.alt='Kondangan';">
+           <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 rounded-full text-xs font-medium primary-text">
+            Formal
+           </div>
+          </div>
+          <div class="p-4">
+           <h4 class="font-bold text-lg mb-1">Kondangan</h4>
+           <p class="text-muted text-sm mb-3">Batik + Celana Bahan</p><button onclick="showPage('chat')" class="w-full primary-bg text-white py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"> Get Recommendation </button>
+          </div>
+         </div>
+        </div><!-- Kuliah -->
+        <div class="carousel-item w-64 lg:w-72 flex-shrink-0">
+         <div class="card-bg rounded-2xl overflow-hidden shadow-lg feature-card h-80">
+          <div class="h-48 relative"><img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&amp;h=300&amp;fit=crop" alt="Kuliah Outfit" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #1E3A5F, #2E5A8F)'; this.alt='Kuliah';">
+           <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 rounded-full text-xs font-medium primary-text">
+            Smart Casual
+           </div>
+          </div>
+          <div class="p-4">
+           <h4 class="font-bold text-lg mb-1">Kuliah</h4>
+           <p class="text-muted text-sm mb-3">Kemeja + Chino Pants</p><button onclick="showPage('chat')" class="w-full primary-bg text-white py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"> Get Recommendation </button>
+          </div>
+         </div>
+        </div><!-- Hangout -->
+        <div class="carousel-item w-64 lg:w-72 flex-shrink-0">
+         <div class="card-bg rounded-2xl overflow-hidden shadow-lg feature-card h-80">
+          <div class="h-48 relative"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&amp;h=300&amp;fit=crop" alt="Hangout Outfit" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #2D5A27, #4A8B3B)'; this.alt='Hangout';">
+           <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 rounded-full text-xs font-medium primary-text">
+            Casual
+           </div>
+          </div>
+          <div class="p-4">
+           <h4 class="font-bold text-lg mb-1">Hangout</h4>
+           <p class="text-muted text-sm mb-3">T-Shirt + Jeans</p><button onclick="showPage('chat')" class="w-full primary-bg text-white py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"> Get Recommendation </button>
+          </div>
+         </div>
+        </div><!-- Interview -->
+        <div class="carousel-item w-64 lg:w-72 flex-shrink-0">
+         <div class="card-bg rounded-2xl overflow-hidden shadow-lg feature-card h-80">
+          <div class="h-48 relative"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&amp;h=300&amp;fit=crop" alt="Interview Outfit" class="w-full h-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #1A1A2E, #2D2D4A)'; this.alt='Interview';">
+           <div class="absolute top-3 right-3 px-2 py-1 bg-white/90 rounded-full text-xs font-medium primary-text">
+            Professional
+           </div>
+          </div>
+          <div class="p-4">
+           <h4 class="font-bold text-lg mb-1">Interview</h4>
+           <p class="text-muted text-sm mb-3">Blazer + Dress Pants</p><button onclick="showPage('chat')" class="w-full primary-bg text-white py-2 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"> Get Recommendation </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- AI Features Grid -->
+      <div class="mb-24 lg:mb-8">
+       <h3 class="text-xl font-bold mb-4">AI Features</h3>
+       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-palette text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Color Palette Matcher</h4>
+         <p class="text-muted text-xs">Find colors that match</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-shirt text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Mix &amp; Match Generator</h4>
+         <p class="text-muted text-xs">Create outfit combos</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-suitcase text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Min-Max Wardrobe</h4>
+         <p class="text-muted text-xs">Optimize your closet</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-calendar-check text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Dress Code Helper</h4>
+         <p class="text-muted text-xs">Match any occasion</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-cloud-sun text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Weather Suggestion</h4>
+         <p class="text-muted text-xs">Dress for the weather</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-person text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Body Type &amp; Fit</h4>
+         <p class="text-muted text-xs">Personalized tips</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-star text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Outfit Rating</h4>
+         <p class="text-muted text-xs">Get AI feedback</p>
+        </div>
+        <div class="card-bg rounded-2xl p-4 shadow-md feature-card cursor-pointer" onclick="showPage('chat')">
+         <div class="w-12 h-12 primary-bg rounded-xl flex items-center justify-center mb-3"><i class="fas fa-heart text-white text-lg"></i>
+         </div>
+         <h4 class="font-semibold text-sm mb-1">Favorites &amp; History</h4>
+         <p class="text-muted text-xs">Save your looks</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- CHAT PAGE -->
+     <div id="page-chat" class="page-content hidden h-full flex flex-col">
+      <div class="px-4 py-3 border-b overflow-x-auto">
+       <div class="flex gap-2 whitespace-nowrap" id="history-container">
+       </div>
+      </div><!-- Chat Messages -->
+      <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 lg:pb-28"><!-- AI Welcome Message -->
+       <div class="flex gap-3 fade-in">
+        <div class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+         <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+         </svg>
+        </div>
+        <div class="chat-bubble-ai p-4 max-w-xs lg:max-w-md">
+         <p class="text-sm">Halo! 👋 Saya AI Style Assistant. Saya bisa bantu kamu memilih outfit yang cocok untuk berbagai acara. Mau pergi ke mana hari ini?</p>
+        </div>
+       </div>
+      </div><!-- Chat Input - Fixed Bottom -->
+      <div class="fixed bottom-0 left-0 right-0 lg:bottom-auto p-4 card-bg border-t z-40" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom));"><!-- Image Preview -->
+       <div id="image-preview" class="hidden mb-3">
+        <div class="relative inline-block"><img id="preview-img" src="" alt="Preview" class="h-20 rounded-lg object-cover"> <button onclick="removeImagePreview()" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">×</button>
+        </div>
+       </div><!-- Input Section -->
+       <div class="flex gap-2 items-end"><label class="w-10 h-10 rounded-full card-bg border flex items-center justify-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex-shrink-0"> <i class="fas fa-image text-muted text-lg"></i><input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event)"> </label>
+        <div class="flex-1 relative"><textarea id="chat-input" rows="1" placeholder="Ketik pesan..." class="w-full px-4 py-2.5 card-bg border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm" style="max-height: 100px;" onkeydown="handleKeyDown(event)"></textarea>
+        </div><button onclick="sendMessage()" class="w-10 h-10 primary-bg text-white rounded-full flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0"> <i class="fas fa-paper-plane"></i></button>
+       </div>
+      </div>
+     </div><!-- SETTINGS PAGE -->
+     <div id="page-settings" class="page-content hidden pb-20 lg:pb-0 fade-in">
+      <div class="p-4 lg:p-8">
+       <h2 class="text-2xl font-bold mb-6">Settings</h2><!-- Settings Tabs -->
+       <div class="flex gap-2 mb-6 border-b overflow-x-auto">
+        <button onclick="switchSettingsTab('profile')" class="settings-tab-btn pb-3 px-4 font-medium border-b-2 border-current transition-colors whitespace-nowrap primary-text" data-tab="profile"> 👤 Profile </button> <button onclick="switchSettingsTab('personal')" class="settings-tab-btn pb-3 px-4 font-medium border-b-2 border-transparent hover:border-gray-300 transition-colors whitespace-nowrap" data-tab="personal"> 🎨 Personal Data </button> <button onclick="switchSettingsTab('wardrobe')" class="settings-tab-btn pb-3 px-4 font-medium border-b-2 border-transparent hover:border-gray-300 transition-colors whitespace-nowrap" data-tab="wardrobe"> 👗 My Wardrobe </button>
+       </div><!-- Profile Tab -->
+       <div id="profile-tab" class="settings-tab">
+        <!-- Profile Card -->
+        <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+         <div class="flex items-center gap-4"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;crop=face" alt="Profile" class="w-16 h-16 rounded-2xl object-cover" loading="lazy" onerror="this.style.background='#9B3545'; this.alt='User';">
+          <div class="flex-1">
+           <h3 class="font-bold text-lg" id="settings-username">Maulana Saepul Akbar</h3>
+           <p class="text-muted text-sm">Premium Member</p>
+           <div class="mt-2 flex gap-2"><span class="px-2 py-0.5 primary-bg text-white rounded-full text-xs">Style Enthusiast</span>
+           </div>
+          </div><button class="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+           </svg></button>
+         </div>
+         <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+          <h4 class="font-semibold mb-4 flex items-center gap-2">
+           <svg class="w-5 h-5 primary-text" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+           </svg> Appearance</h4><!-- Dark Mode Toggle -->
+          <div class="flex items-center justify-between py-3 border-b">
+           <div>
+            <p class="font-medium">Dark Mode</p>
+            <p class="text-muted text-sm">Switch to dark theme</p>
+           </div><label class="relative inline-flex items-center cursor-pointer"> <input type="checkbox" id="dark-mode-toggle" class="sr-only peer" onchange="toggleDarkMode()">
+            <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div></label>
+          </div><!-- Theme Selection -->
+          <div class="py-3">
+           <p class="font-medium mb-3">Theme Color</p>
+           <div class="flex gap-3"><label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="theme" value="maroon" checked onchange="changeTheme('maroon')" class="w-4 h-4 accent-current"> <span class="w-6 h-6 rounded-full bg-[#7B1E2B] border-2 border-white shadow"></span> <span class="text-sm">Maroon</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="theme" value="navy" onchange="changeTheme('navy')" class="w-4 h-4 accent-current"> <span class="w-6 h-6 rounded-full bg-[#1E3A5F] border-2 border-white shadow"></span> <span class="text-sm">Navy Blue</span> </label>
+           </div>
+          </div>
+         </div><!-- Notifications Section -->
+         <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+          <h4 class="font-semibold mb-4 flex items-center gap-2">
+           <svg class="w-5 h-5 primary-text" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+           </svg> Notifications</h4>
+          <div class="space-y-3">
+           <div class="flex items-center justify-between py-2">
+            <div>
+             <p class="font-medium text-sm">Push Notifications</p>
+             <p class="text-muted text-xs">Receive style tips &amp; updates</p>
+            </div><label class="relative inline-flex items-center cursor-pointer"> <input type="checkbox" checked class="sr-only peer">
+             <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div></label>
+           </div>
+           <div class="flex items-center justify-between py-2">
+            <div>
+             <p class="font-medium text-sm">Daily Style Tips</p>
+             <p class="text-muted text-xs">Get daily outfit inspiration</p>
+            </div><label class="relative inline-flex items-center cursor-pointer"> <input type="checkbox" checked class="sr-only peer">
+             <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div></label>
+           </div>
+          </div>
+         </div><!-- Reset Button --> <button onclick="resetPreferences()" class="w-full card-bg border-2 border-red-500 text-red-500 rounded-2xl py-3 font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors mb-24 lg:mb-8"> Reset All Preferences </button>
+        </div>
+       </div>
+      </div><!-- Personal Data Tab -->
+      <div id="personal-tab" class="settings-tab hidden p-4 lg:p-8">
+       <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+        <h4 class="font-semibold mb-4">👤 Body Shape</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4"><label class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option"> <input type="radio" name="body_shape" value="hourglass" class="hidden peer" onchange="updateBodyShapeUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-500 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1539571696357-5a69c006ae1f?w=300&amp;h=400&amp;fit=crop&amp;crop=faces" alt="Hourglass body shape" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-pink-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-500 peer-checked:bg-pink-500 transition-all"></div><span class="text-sm font-semibold text-center">⌛ Hourglass</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option"> <input type="radio" name="body_shape" value="pear" class="hidden peer" onchange="updateBodyShapeUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-purple-500 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&amp;h=400&amp;fit=crop&amp;crop=faces" alt="Pear body shape" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-purple-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-purple-500 peer-checked:bg-purple-500 transition-all"></div><span class="text-sm font-semibold text-center">🍐 Pear</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option"> <input type="radio" name="body_shape" value="apple" class="hidden peer" onchange="updateBodyShapeUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-orange-500 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&amp;h=400&amp;fit=crop&amp;crop=faces" alt="Apple body shape" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-orange-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-orange-500 peer-checked:bg-orange-500 transition-all"></div><span class="text-sm font-semibold text-center">🍎 Apple</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option"> <input type="radio" name="body_shape" value="rectangle" class="hidden peer" onchange="updateBodyShapeUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-blue-500 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&amp;h=400&amp;fit=crop&amp;crop=faces" alt="Rectangle body shape" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-blue-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-all"></div><span class="text-sm font-semibold text-center">▭ Rectangle</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option"> <input type="radio" name="body_shape" value="inverted-triangle" class="hidden peer" onchange="updateBodyShapeUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-green-500 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1507591064344-cd5a5ad29bf9?w=300&amp;h=400&amp;fit=crop&amp;crop=faces" alt="Inverted Triangle body shape" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-green-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-green-500 peer-checked:bg-green-500 transition-all"></div><span class="text-sm font-semibold text-center">△ Inverted</span> </label>
+        </div>
+       </div>
+       <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+        <h4 class="font-semibold mb-4">🎨 Style Preferences (Select multiple)</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+         <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="minimalist" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1490578174853-bc519f5ee775?w=300&amp;h=300&amp;fit=crop" alt="Minimalist style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-gray-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 transition-all"></div><span class="text-sm font-semibold text-center">Minimalist</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="bohemian" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-amber-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&amp;h=300&amp;fit=crop" alt="Bohemian style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-amber-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-amber-600 peer-checked:bg-amber-600 transition-all"></div><span class="text-sm font-semibold text-center">Bohemian</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="classic" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-blue-700 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&amp;h=300&amp;fit=crop" alt="Classic style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-blue-700/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-blue-700 peer-checked:bg-blue-700 transition-all"></div><span class="text-sm font-semibold text-center">Classic</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="trendy" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1559631065-cd4628902d4a?w=300&amp;h=300&amp;fit=crop" alt="Trendy style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-pink-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-600 peer-checked:bg-pink-600 transition-all"></div><span class="text-sm font-semibold text-center">Trendy</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="sporty" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-green-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1622268537308-d3b1b0e17f7d?w=300&amp;h=300&amp;fit=crop" alt="Sporty style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-green-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-green-600 peer-checked:bg-green-600 transition-all"></div><span class="text-sm font-semibold text-center">Sporty</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="edgy" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-900 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1611003228941-98852ba62227?w=300&amp;h=300&amp;fit=crop" alt="Edgy style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-gray-900/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-900 peer-checked:bg-gray-900 transition-all"></div><span class="text-sm font-semibold text-center">Edgy</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="romantic" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-rose-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1595777712802-303e5edd5e06?w=300&amp;h=300&amp;fit=crop" alt="Romantic style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-rose-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-rose-600 peer-checked:bg-rose-600 transition-all"></div><span class="text-sm font-semibold text-center">Romantic</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="casual" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1490578174853-bc519f5ee775?w=300&amp;h=300&amp;fit=crop" alt="Minimalist style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-gray-500/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 transition-all"></div><span class="text-sm font-semibold text-center">Minimalist</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="bohemian" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-amber-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&amp;h=300&amp;fit=crop" alt="Bohemian style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-amber-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-amber-600 peer-checked:bg-amber-600 transition-all"></div><span class="text-sm font-semibold text-center">Bohemian</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="classic" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-blue-700 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&amp;h=300&amp;fit=crop" alt="Classic style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-blue-700/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-blue-700 peer-checked:bg-blue-700 transition-all"></div><span class="text-sm font-semibold text-center">Classic</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="trendy" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1559631065-cd4628902d4a?w=300&amp;h=300&amp;fit=crop" alt="Trendy style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-pink-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-600 peer-checked:bg-pink-600 transition-all"></div><span class="text-sm font-semibold text-center">Trendy</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="sporty" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-green-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1622268537308-d3b1b0e17f7d?w=300&amp;h=300&amp;fit=crop" alt="Sporty style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-green-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-green-600 peer-checked:bg-green-600 transition-all"></div><span class="text-sm font-semibold text-center">Sporty</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="edgy" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-900 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1611003228941-98852ba62227?w=300&amp;h=300&amp;fit=crop" alt="Edgy style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-gray-900/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-900 peer-checked:bg-gray-900 transition-all"></div><span class="text-sm font-semibold text-center">Edgy</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="romantic" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-rose-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1595777712802-303e5edd5e06?w=300&amp;h=300&amp;fit=crop" alt="Romantic style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-rose-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-rose-600 peer-checked:bg-rose-600 transition-all"></div><span class="text-sm font-semibold text-center">Romantic</span> </label> <label class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option"> <input type="checkbox" name="style_pref" value="casual" class="hidden peer" onchange="updateStylePrefUI()">
+          <div class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-cyan-600 group-hover:border-gray-300 transition-all"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=300&amp;h=300&amp;fit=crop" alt="Casual style" class="w-full h-full object-cover transition-all" loading="lazy">
+           <div class="absolute inset-0 bg-black/0 peer-checked:bg-cyan-600/20 transition-colors"></div>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-cyan-600 peer-checked:bg-cyan-600 transition-all"></div><span class="text-sm font-semibold text-center">Casual</span> </label>
+        </div>
+       </div>
+       <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+        <h4 class="font-semibold mb-4">💚 Favorite Colors (Select multiple)</h4>
+        <div class="space-y-3"><label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="red" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-red-500 border-2 border-gray-300"></span> <span class="text-sm">Red</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="blue" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-blue-500 border-2 border-gray-300"></span> <span class="text-sm">Blue</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="green" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-green-500 border-2 border-gray-300"></span> <span class="text-sm">Green</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="purple" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-purple-500 border-2 border-gray-300"></span> <span class="text-sm">Purple</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="black" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-black border-2 border-gray-300"></span> <span class="text-sm">Black</span> </label> <label class="flex items-center gap-3 cursor-pointer"> <input type="checkbox" name="fav_color" value="white" class="w-4 h-4 accent-current"> <span class="inline-block w-4 h-4 rounded-full bg-white border-2 border-gray-300"></span> <span class="text-sm">White</span> </label>
+        </div>
+       </div><button onclick="updatePersonalData()" class="w-full primary-bg text-white rounded-2xl py-3 font-medium hover:opacity-90 transition-opacity mb-24 lg:mb-8"> Save Personal Data </button>
+      </div><!-- Wardrobe Tab -->
+      <div id="wardrobe-tab" class="settings-tab hidden p-4 lg:p-8">
+       <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+        <h4 class="font-semibold mb-4 flex items-center gap-2"><i class="fas fa-folder-open primary-text"></i> <span id="category-name">Shirts</span></h4><!-- Category Buttons -->
+        <div class="flex gap-2 mb-6 overflow-x-auto pb-2"><button onclick="switchWardrobeCategory('shirts')" class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all primary-bg text-white border-current" data-category="shirts">👕 Shirts</button> <button onclick="switchWardrobeCategory('pants')" class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200" data-category="pants">👖 Pants</button> <button onclick="switchWardrobeCategory('shoes')" class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200" data-category="shoes">👟 Shoes</button> <button onclick="switchWardrobeCategory('accessories')" class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200" data-category="accessories">💍 Accessories</button>
+        </div><!-- Add Item Section -->
+        <div class="add-item-section rounded-2xl p-4 mb-6">
+         <h5 class="font-semibold text-sm mb-3">Add New Item</h5>
+         <div class="space-y-3"><input type="text" id="item-name" placeholder="Item Name (e.g., Blue Polo Shirt)" class="w-full px-3 py-2 card-bg border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50"> <textarea id="item-desc" placeholder="Description (optional)" rows="2" class="w-full px-3 py-2 card-bg border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50"></textarea> <label class="block"> <input type="file" id="wardrobe-upload" accept="image/*" multiple onchange="handleWardrobeImageUpload(event)" class="hidden">
+           <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-current transition-colors"><i class="fas fa-cloud-upload-alt text-2xl text-muted mb-2"></i>
+            <p class="text-sm font-medium">Upload Images (Max 5)</p>
+            <p class="text-xs text-muted">Click to select or drag images</p>
+           </div></label>
+          <div id="wardrobe-preview" class="hidden p-3 card-bg border rounded-lg flex flex-wrap gap-2 items-start">
+          </div><button onclick="addWardrobeItem()" class="w-full primary-bg text-white rounded-lg py-2 font-medium hover:opacity-90 transition-opacity text-sm"> Add Item </button>
+         </div>
+        </div><!-- Items Display -->
+        <div id="empty-wardrobe" class="text-center py-8"><i class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
+         <p class="text-muted text-sm">No items yet. Add your first <span id="category-empty" class="lowercase">shirt</span>!</p>
+        </div>
+        <div id="wardrobe-items" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full"></div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Mobile Bottom Navigation -->
+    <nav id="mobile-nav-bar" class="mobile-nav lg:hidden fixed bottom-0 left-0 right-0 card-bg bottom-nav px-2 py-2 flex justify-around items-center z-50"><button onclick="showPage('home')" class="mobile-nav-btn flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all" data-page="home"> <i class="fas fa-home text-lg"></i><span class="text-xs font-medium">Home</span> </button> <button onclick="showPage('chat')" class="mobile-nav-btn flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all" data-page="chat"> <i class="fas fa-comments text-lg"></i><span class="text-xs font-medium">Chat</span> </button> <button onclick="showPage('settings')" class="mobile-nav-btn flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all" data-page="settings"> <i class="fas fa-gear text-lg"></i><span class="text-xs font-medium">Settings</span> </button>
+    </nav>
+   </main>
+  </div><!-- Image Preview Modal -->
+  <div id="image-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center image-modal"><!-- Backdrop -->
+   <div onclick="closeImageModal()" class="absolute inset-0 bg-black/60 image-modal-backdrop"></div><!-- Modal Content -->
+   <div class="image-modal-content relative max-w-2xl w-11/12 lg:w-3/4"><button onclick="closeImageModal()" class="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors lg:-top-8">
+     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+     </svg></button> <!-- Image Container -->
+    <div class="bg-black rounded-lg overflow-hidden"><img id="modal-image" src="" alt="Preview" class="w-full h-auto">
+    </div><!-- Image Title -->
+    <div class="text-white mt-4 text-center">
+     <p id="modal-title" class="text-lg font-semibold"></p>
+     <p id="modal-description" class="text-sm text-gray-300 mt-1"></p>
+    </div><!-- Navigation Arrows --> <button id="prev-image-btn" onclick="previousImage()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 text-white hover:text-gray-300 transition-colors disabled:opacity-50">
+     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+     </svg></button> <button id="next-image-btn" onclick="nextImage()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 text-white hover:text-gray-300 transition-colors disabled:opacity-50">
+     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+     </svg></button> <!-- Image Counter -->
+    <div class="text-white text-center mt-4 text-sm"><span id="image-counter"></span>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ========== GLOBAL VARIABLES ==========
+    let wardrobeItems = [];
+    let wardrobeImages = {};
+    let currentWardrobeCategory = 'shirts';
+    let currentWardrobePreview = null;
+    let currentPage = 'home';
+    let isDarkMode = false;
+    let currentTheme = 'maroon';
+    let uploadedImage = null;
+    let chatHistories = [
+      { id: 1, title: 'Rekomendasi kondangan', preview: 'Outfit formal untuk acara...' },
+      { id: 2, title: 'Outfit untuk kuliah besok', preview: 'Smart casual untuk kuliah...' },
+      { id: 3, title: 'Cari warna cocok', preview: 'Kombinasi warna navy...' },
+      { id: 4, title: 'Tips interview kerja', preview: 'Professional outfit untuk...' }
+    ];
+    let selectedHistory = null;
+    let currentModalImages = [];
+    let currentModalImageIndex = 0;
+    let wardrobePreviewList = [];
+
+    // ========== EARLY FUNCTION DEFINITIONS (before HTML runs) ==========
+    
+    function showPage(page) {
+      currentPage = page;
+      
+      // Hide all pages completely
+      document.querySelectorAll('.page-content').forEach(p => {
+        p.classList.add('hidden');
+        p.classList.remove('fade-in');
+      });
+      
+      // Show selected page
+      const pageEl = document.getElementById(`page-${page}`);
+      if (pageEl) {
+        pageEl.classList.remove('hidden');
+        pageEl.classList.add('fade-in');
+      }
+      
+      // Show/hide mobile nav bar and chat header
+      const navBar = document.getElementById('mobile-nav-bar');
+      const chatHeader = document.getElementById('chat-header-mobile');
+      
+      if (page === 'chat') {
+        navBar.classList.add('hidden');
+        chatHeader.classList.remove('hidden');
+      } else {
+        navBar.classList.remove('hidden');
+        chatHeader.classList.add('hidden');
+      }
+      
+      // Reset settings tabs when leaving settings
+      if (page !== 'settings') {
+        document.querySelectorAll('.settings-tab').forEach(tab => {
+          tab.classList.add('hidden');
+        });
+        switchSettingsTab('profile');
+      }
+      
+      // Update navigation states
+      updateNavStates();
+    }
+
+    function updateNavStates() {
+      // Desktop nav
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.page === currentPage) {
+          btn.classList.add('bg-white/20');
+        } else {
+          btn.classList.remove('bg-white/20');
+        }
+      });
+      
+      // Mobile nav
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        if (btn.dataset.page === currentPage) {
+          btn.classList.add('primary-bg', 'text-white');
+        } else {
+          btn.classList.remove('primary-bg', 'text-white');
+        }
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-20 lg:bottom-8 left-1/2 transform -translate-x-1/2 primary-bg text-white px-4 py-2 rounded-full text-sm z-50 fade-in';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 2000);
+    }
+
+    function switchSettingsTab(tab) {
+      document.querySelectorAll('.settings-tab').forEach(el => {
+        el.classList.add('hidden');
+      });
+      
+      const tabEl = document.getElementById(`${tab}-tab`);
+      if (tabEl) {
+        tabEl.classList.remove('hidden');
+      }
+
+      document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+        btn.classList.remove('primary-text', 'border-b-current');
+        btn.classList.add('border-transparent');
+      });
+      
+      const btnEl = document.querySelector(`[data-tab="${tab}"]`);
+      if (btnEl) {
+        btnEl.classList.add('primary-text', 'border-b-current');
+      }
+    }
+
+    // ========== DATA SDK INITIALIZATION ==========
+    const dataHandler = {
+      onDataChanged(data) {
+        wardrobeItems = data;
+        renderWardrobeItems();
+      }
+    };
+
+    async function initializeDataSDK() {
+      if (!window.dataSdk) return;
+      const result = await window.dataSdk.init(dataHandler);
+      if (result.isOk) {
+        console.log('Data SDK initialized');
+      }
+    }
+
+    // Call on load
+    initializeDataSDK();
+
+    // ========== DEFAULT CONFIGURATION ==========
+    const defaultConfig = {
+      user_name: 'Maulana Saepul Akbar',
+      greeting_text: '👋 Apa kabar?',
+      primary_color: '#7B1E2B',
+      background_color: '#FDF8F8',
+      card_color: '#FFFFFF',
+      text_color: '#2D2D2D',
+      text_muted_color: '#6B6B6B'
+    };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          // Update user name displays
+          const userName = config.user_name || defaultConfig.user_name;
+          document.getElementById('username-display').textContent = userName;
+          document.getElementById('sidebar-username').textContent = userName;
+          document.getElementById('settings-username').textContent = userName;
+          
+          // Update greeting
+          const greeting = config.greeting_text || defaultConfig.greeting_text;
+          document.getElementById('greeting-display').textContent = greeting;
+          
+          // Update colors
+          applyColors(config);
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => window.elementSdk.setConfig({ card_color: value })
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => window.elementSdk.setConfig({ primary_color: value })
+            },
+            {
+              get: () => config.text_muted_color || defaultConfig.text_muted_color,
+              set: (value) => window.elementSdk.setConfig({ text_muted_color: value })
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['user_name', config.user_name || defaultConfig.user_name],
+          ['greeting_text', config.greeting_text || defaultConfig.greeting_text]
+        ])
+      });
+    }
+
+    function applyColors(config) {
+      const root = document.documentElement;
+      if (config.primary_color) {
+        root.style.setProperty('--primary', config.primary_color);
+      }
+    }
+
+    // ========== WARDROBE MANAGEMENT ==========
+    function switchWardrobeCategory(category) {
+      currentWardrobeCategory = category;
+      
+      const categoryNames = {
+        'shirts': 'Shirts',
+        'pants': 'Pants',
+        'shoes': 'Shoes',
+        'accessories': 'Accessories'
+      };
+
+      document.getElementById('category-name').textContent = categoryNames[category];
+      
+      document.querySelectorAll('.wardrobe-category-btn').forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.classList.add('primary-bg', 'text-white', 'border-current');
+          btn.classList.remove('border-gray-200');
+        } else {
+          btn.classList.remove('primary-bg', 'text-white', 'border-current');
+          btn.classList.add('border-gray-200');
+        }
+      });
+
+      renderWardrobeItems();
+    }
+
+    // Wardrobe Image Upload - Multiple (Max 5)
+    function handleWardrobeImageUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      const totalAfterUpload = wardrobePreviewList.length + files.length;
+      if (totalAfterUpload > 5) {
+        showToast(`⚠️ Maximum 5 images. You can add ${5 - wardrobePreviewList.length} more.`);
+        return;
+      }
+
+      for (let file of files) {
+        if (wardrobePreviewList.length >= 5) break;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          wardrobePreviewList.push(e.target.result);
+          renderWardrobePreviewGrid();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function renderWardrobePreviewGrid() {
+      const container = document.getElementById('wardrobe-preview');
+      container.innerHTML = '';
+      
+      wardrobePreviewList.forEach((preview, index) => {
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'relative inline-block mr-2 mb-2';
+        previewDiv.innerHTML = `
+          <img src="${preview}" alt="Preview ${index + 1}" class="h-20 rounded-lg object-cover">
+          <button type="button" onclick="removeWardrobePreview(${index})" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold hover:bg-red-600">
+            ×
+          </button>
+        `;
+        container.appendChild(previewDiv);
+      });
+
+      if (wardrobePreviewList.length > 0) {
+        container.classList.remove('hidden');
+      }
+    }
+
+    function removeWardrobePreview(index) {
+      wardrobePreviewList.splice(index, 1);
+      renderWardrobePreviewGrid();
+      if (wardrobePreviewList.length === 0) {
+        document.getElementById('wardrobe-preview').classList.add('hidden');
+        document.getElementById('wardrobe-upload').value = '';
+      }
+    }
+
+    function clearWardrobePreview() {
+      wardrobePreviewList = [];
+      document.getElementById('wardrobe-preview').classList.add('hidden');
+      document.getElementById('wardrobe-upload').value = '';
+    }
+
+    // Add Wardrobe Item
+    async function addWardrobeItem() {
+      const name = document.getElementById('item-name').value.trim();
+      const desc = document.getElementById('item-desc').value.trim();
+
+      if (!name) {
+        showToast('Please enter item name');
+        return;
+      }
+
+      if (wardrobePreviewList.length === 0) {
+        showToast('Please upload at least 1 image');
+        return;
+      }
+
+      if (wardrobeItems.length >= 999) {
+        showToast('Maximum 999 items reached!');
+        return;
+      }
+
+      // Get button reference properly
+      const btn = document.querySelector('#wardrobe-tab .add-item-section button[onclick="addWardrobeItem()"]');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Adding...';
+      }
+
+      // Store images locally and create items with image index reference
+      let successCount = 0;
+      for (let i = 0; i < wardrobePreviewList.length; i++) {
+        const imageUrl = wardrobePreviewList[i];
+        const imageId = Date.now().toString() + '_' + i;
+        
+        // Store image locally
+        wardrobeImages[imageId] = imageUrl;
+
+        const newItem = {
+          id: imageId,
+          category: currentWardrobeCategory,
+          itemName: name,
+          description: desc,
+          imageIndex: i, // Just store the index, not the actual image
+          addedDate: new Date().toISOString()
+        };
+
+        if (window.dataSdk) {
+          const result = await window.dataSdk.create(newItem);
+          if (result.isOk) {
+            successCount++;
+          } else {
+            console.error('Failed to create item:', result.error);
+          }
+        } else {
+          console.error('Data SDK not available');
+        }
+      }
+
+      if (successCount > 0) {
+        document.getElementById('item-name').value = '';
+        document.getElementById('item-desc').value = '';
+        clearWardrobePreview();
+        showToast(`✅ ${successCount} item(s) added successfully!`);
+      } else {
+        showToast('❌ Failed to add items. Check console.');
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Add Item';
+      }
+    }
+
+    // Render Wardrobe Items
+    function renderWardrobeItems() {
+      const container = document.getElementById('wardrobe-items');
+      const emptyState = document.getElementById('empty-wardrobe');
+      const filtered = wardrobeItems.filter(item => item.category === currentWardrobeCategory);
+      
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      
+      container.innerHTML = filtered.map(item => {
+        // Get the actual image from local storage
+        const imageUrl = wardrobeImages[item.id] || 'https://via.placeholder.com/200x200?text=Image+Unavailable';
+        
+        return `
+        <div class="card-bg rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow group flex flex-col h-full">
+          <div class="relative flex-1 overflow-hidden bg-gray-200">
+            <img src="${imageUrl}" alt="${item.itemName}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #7B1E2B, #9B3545)'; this.alt='Item';">
+            <button type="button" onclick="deleteWardrobeItem('${item.__backendId}')" class="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600" title="Delete">
+              ×
+            </button>
+          </div>
+          <div class="p-3">
+            <h4 class="font-semibold text-sm mb-1 truncate">${item.itemName}</h4>
+            ${item.description ? `<p class="text-xs text-muted line-clamp-2 mb-2">${item.description}</p>` : ''}
+            <span class="text-xs text-muted">${new Date(item.addedDate).toLocaleDateString()}</span>
+          </div>
+        </div>
+      `;
+      }).join('');
+    }
+
+    // Delete Wardrobe Item
+    async function deleteWardrobeItem(itemId) {
+      const item = wardrobeItems.find(w => w.__backendId === itemId);
+      if (!item) return;
+
+      const confirmed = confirm(`Delete "${item.itemName}"?`);
+      if (!confirmed) return;
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.delete(item);
+        if (result.isOk) {
+          showToast('Item deleted');
+        }
+      }
+    }
+
+    // Update Body Shape UI
+    function updateBodyShapeUI() {
+      document.querySelectorAll('.body-shape-option').forEach(label => {
+        const radio = label.querySelector('input[type="radio"]');
+        if (radio.checked) {
+          label.classList.add('scale-105');
+        } else {
+          label.classList.remove('scale-105');
+        }
+      });
+    }
+
+    // Update Style Preferences UI
+    function updateStylePrefUI() {
+      document.querySelectorAll('.style-pref-option').forEach(label => {
+        const checkbox = label.querySelector('input[type="checkbox"]');
+        if (checkbox.checked) {
+          label.classList.add('scale-105');
+        } else {
+          label.classList.remove('scale-105');
+        }
+      });
+    }
+
+    // Update Personal Data
+    function updatePersonalData() {
+      const bodyShape = document.querySelector('input[name="body_shape"]:checked')?.value || '';
+      const stylePref = Array.from(document.querySelectorAll('input[name="style_pref"]:checked')).map(el => el.value).join(', ');
+      const favColors = Array.from(document.querySelectorAll('input[name="fav_color"]:checked')).map(el => el.value).join(', ');
+
+      showToast('Personal data saved ✓');
+    }
+
+    // ========== UTILITY FUNCTIONS ==========
+    function updateNavStates() {
+      // Desktop nav
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.dataset.page === currentPage) {
+          btn.classList.add('bg-white/20');
+        } else {
+          btn.classList.remove('bg-white/20');
+        }
+      });
+      
+      // Mobile nav
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        if (btn.dataset.page === currentPage) {
+          btn.classList.add('primary-bg', 'text-white');
+        } else {
+          btn.classList.remove('primary-bg', 'text-white');
+        }
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-20 lg:bottom-8 left-1/2 transform -translate-x-1/2 primary-bg text-white px-4 py-2 rounded-full text-sm z-50 fade-in';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 2000);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function backToChatHistory() {
+      const chatContainer = document.getElementById('chat-messages');
+      chatContainer.innerHTML = '';
+      
+      // Add AI Welcome Message
+      const welcomeMsg = document.createElement('div');
+      welcomeMsg.className = 'flex gap-3 fade-in';
+      welcomeMsg.innerHTML = `
+        <div class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+         <svg class="w-4 h-4 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>
+        </div>
+        <div class="chat-bubble-ai p-4 max-w-xs lg:max-w-md">
+         <p class="text-sm">Halo! 👋 Saya AI Style Assistant. Saya bisa bantu kamu memilih outfit yang cocok untuk berbagai acara. Mau pergi ke mana hari ini?</p>
+        </div>
+      `;
+      chatContainer.appendChild(welcomeMsg);
+      
+      selectedHistory = null;
+      renderChatHistories();
+      chatContainer.scrollTop = 0;
+    }
+
+    // ========== THEME & APPEARANCE ==========
+    function toggleDarkMode() {
+      isDarkMode = !isDarkMode;
+      const body = document.body;
+      
+      if (isDarkMode) {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+      } else {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+      }
+      
+      // Update toggle checkbox
+      const toggle = document.getElementById('dark-mode-toggle');
+      if (toggle) {
+        toggle.checked = isDarkMode;
+      }
+      
+      // Update icon
+      updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+      const iconMobile = document.getElementById('theme-icon-mobile');
+      if (isDarkMode) {
+        iconMobile.className = 'fas fa-moon text-white';
+      } else {
+        iconMobile.className = 'fas fa-sun text-white';
+      }
+    }
+
+    // Theme Change
+    function changeTheme(theme) {
+      currentTheme = theme;
+      const body = document.body;
+      
+      body.classList.remove('theme-navy');
+      
+      if (theme === 'navy') {
+        body.classList.add('theme-navy');
+      }
+      
+      // Update primary color in config
+      const newPrimary = theme === 'navy' ? '#1E3A5F' : '#7B1E2B';
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ primary_color: newPrimary });
+      }
+    }
+
+    // Reset Preferences
+    function resetPreferences() {
+      // Show inline confirmation
+      const btn = event.target;
+      const originalText = btn.textContent;
+      btn.textContent = 'Click again to confirm';
+      btn.classList.add('bg-red-500', 'text-white');
+      
+      btn.onclick = () => {
+        // Reset dark mode
+        if (isDarkMode) toggleDarkMode();
+        
+        // Reset theme
+        changeTheme('maroon');
+        document.querySelector('input[value="maroon"]').checked = true;
+        
+        // Reset notifications
+        document.querySelectorAll('#appearance-tab input[type="checkbox"]').forEach(cb => {
+          if (cb.id !== 'dark-mode-toggle') cb.checked = true;
+        });
+        
+        // Show success message
+        btn.textContent = '✓ Reset Complete!';
+        btn.classList.remove('bg-red-500');
+        btn.classList.add('bg-green-500');
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.classList.remove('bg-green-500', 'text-white');
+          btn.onclick = resetPreferences;
+        }, 2000);
+      };
+      
+      // Reset after 3 seconds if not confirmed
+      setTimeout(() => {
+        if (btn.textContent === 'Click again to confirm') {
+          btn.textContent = originalText;
+          btn.classList.remove('bg-red-500', 'text-white');
+          btn.onclick = resetPreferences;
+        }
+      }, 3000);
+    }
+
+    // ========== CHAT FUNCTIONS ==========
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      
+      if (!message && !uploadedImage) return;
+      
+      const chatContainer = document.getElementById('chat-messages');
+      
+      // Add user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'flex gap-3 justify-end fade-in';
+      userMsg.innerHTML = `
+        <div class="chat-bubble-user p-4 max-w-xs lg:max-w-md">
+          ${uploadedImage ? `<img src="${uploadedImage}" alt="Uploaded outfit" class="rounded-lg mb-2 max-w-full">` : ''}
+          ${message ? `<p class="text-sm">${escapeHtml(message)}</p>` : ''}
+        </div>
+      `;
+      chatContainer.appendChild(userMsg);
+      
+      // Clear input and image
+      input.value = '';
+      removeImagePreview();
+      
+      // Scroll to bottom
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      // Simulate AI response
+      setTimeout(() => {
+        addAIResponse(message);
+      }, 1000);
+    }
+
+    function addAIResponse(userMessage) {
+      const chatContainer = document.getElementById('chat-messages');
+      
+      // Create typing indicator
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'flex gap-3 fade-in typing-msg';
+      typingDiv.innerHTML = `
+        <div class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <div class="chat-bubble-ai p-4">
+          <div class="typing-indicator text-primary">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      chatContainer.appendChild(typingDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      // Simulate AI response delay
+      setTimeout(() => {
+        // Generate contextual outfit images
+        let images = generateOutfitImages(userMessage);
+        
+        // Replace typing indicator with actual response
+        const bubble = typingDiv.querySelector('.chat-bubble-ai');
+        const imagesJSON = JSON.stringify(images).replace(/"/g, '&quot;');
+        bubble.innerHTML = `
+          <div class="grid grid-cols-3 gap-2 mb-3 w-full" id="outfit-grid">
+            ${images.map((img, idx) => `
+              <button type="button" onclick="openImageModal(${idx}, ${imagesJSON})" class="relative group w-full aspect-square rounded-lg overflow-hidden border-0 p-0 cursor-pointer hover:shadow-lg transition-all">
+                <img src="${img.url}" alt="${img.title}" class="rounded-lg w-full h-full object-cover hover:opacity-90 transition-opacity" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #7B1E2B, #9B3545)'; this.alt='Outfit';">
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-lg flex items-end p-1.5">
+                  <p class="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity text-center w-full">${img.title}</p>
+                </div>
+              </button>
+            `).join('')}
+          </div>
+          <p class="text-sm mb-3">${getOutfitDescription(userMessage)}</p>
+          <div class="flex gap-2 mt-3 pt-3 border-t border-gray-200">
+            <button onclick="handleFeedback(this, 'like')" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Helpful">
+              <i class="fas fa-thumbs-up"></i>
+              <span class="like-count">0</span>
+            </button>
+            <button onclick="handleFeedback(this, 'dislike')" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Not helpful">
+              <i class="fas fa-thumbs-down"></i>
+              <span class="dislike-count">0</span>
+            </button>
+            <button onclick="handleShare(this)" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Share">
+              <i class="fas fa-share-alt"></i>
+            </button>
+          </div>
+        `;
+        
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 1500 + Math.random() * 1000);
+    }
+
+    function generateOutfitImages(message) {
+      const lowerMsg = message.toLowerCase();
+      
+      if (lowerMsg.includes('kondangan')) {
+        return [
+          { url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=300&fit=crop', title: 'Batik Formal' },
+          { url: 'https://images.unsplash.com/photo-1605734326315-fe1674b77a1f?w=400&h=300&fit=crop', title: 'Pairing Formal' },
+          { url: 'https://images.unsplash.com/photo-1633113845063-8e0a8ed3d4e9?w=400&h=300&fit=crop', title: 'Complete Look' }
+        ];
+      } else if (lowerMsg.includes('kuliah')) {
+        return [
+          { url: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&h=300&fit=crop', title: 'Smart Casual Shirt' },
+          { url: 'https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=300&fit=crop', title: 'Chino Pants' },
+          { url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop', title: 'Complete Outfit' }
+        ];
+      } else if (lowerMsg.includes('hangout') || lowerMsg.includes('jalan')) {
+        return [
+          { url: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=300&fit=crop', title: 'Casual T-Shirt' },
+          { url: 'https://images.unsplash.com/photo-1542272604-787c62d465d1?w=400&h=300&fit=crop', title: 'Jeans' },
+          { url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop', title: 'Casual Look' }
+        ];
+      } else if (lowerMsg.includes('interview') || lowerMsg.includes('kerja')) {
+        return [
+          { url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=300&fit=crop', title: 'Professional Blazer' },
+          { url: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=300&fit=crop', title: 'Dress Pants' },
+          { url: 'https://images.unsplash.com/photo-1633113845063-8e0a8ed3d4e9?w=400&h=300&fit=crop', title: 'Interview Ready' }
+        ];
+      } else if (lowerMsg.includes('warna') || lowerMsg.includes('color')) {
+        return [
+          { url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=300&fit=crop', title: 'Navy Combination' },
+          { url: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&h=300&fit=crop', title: 'Neutral Palette' },
+          { url: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=300&fit=crop', title: 'Warm Tones' }
+        ];
+      } else {
+        return [
+          { url: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&h=300&fit=crop', title: 'Style Option 1' },
+          { url: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&h=300&fit=crop', title: 'Style Option 2' },
+          { url: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&h=300&fit=crop', title: 'Style Option 3' }
+        ];
+      }
+    }
+
+    function getOutfitDescription(message) {
+      const lowerMsg = message.toLowerCase();
+      
+      if (lowerMsg.includes('kondangan')) {
+        return '👔 Tiga pilihan outfit formal untuk kondangan. Pilih batik dengan motif klasik dan kombinasikan dengan celana bahan untuk tampilan yang elegan dan berkesan!';
+      } else if (lowerMsg.includes('kuliah')) {
+        return '📚 Smart casual outfit yang nyaman untuk kuliah. Kemeja, chino pants, dan sneakers adalah kombinasi sempurna untuk tampilan yang stylish dan praktis!';
+      } else if (lowerMsg.includes('hangout') || lowerMsg.includes('jalan')) {
+        return '😎 Casual outfit perfect untuk hangout dengan teman-teman. Simpel tapi stylish dengan t-shirt, jeans, dan sneakers favorit kamu!';
+      } else if (lowerMsg.includes('interview') || lowerMsg.includes('kerja')) {
+        return '💼 Professional outfit untuk interview atau meeting kerja. Blazer, dress pants, dan sepatu formal menciptakan kesan profesional yang kuat!';
+      } else if (lowerMsg.includes('warna') || lowerMsg.includes('color')) {
+        return '🎨 Kombinasi warna yang cocok untuk berbagai situasi. Dari navy, neutral, hingga warm tones - semua sempurna untuk outfit kamu!';
+      } else {
+        return '✨ Beberapa pilihan outfit gaya untuk inspirasi kamu. Tanya lebih spesifik untuk rekomendasi yang lebih tepat!';
+      }
+    }
+
+    function handleFeedback(button, type) {
+      const isLike = type === 'like';
+      const likeBtn = button.parentElement.querySelector('button:nth-child(1)');
+      const dislikeBtn = button.parentElement.querySelector('button:nth-child(2)');
+      
+      if (isLike) {
+        likeBtn.classList.add('primary-bg', 'text-white');
+        dislikeBtn.classList.remove('primary-bg', 'text-white');
+      } else {
+        dislikeBtn.classList.add('primary-bg', 'text-white');
+        likeBtn.classList.remove('primary-bg', 'text-white');
+      }
+      
+      // Show brief feedback message
+      const feedbackMsg = isLike ? 'Terima kasih! Senang bisa membantu 😊' : 'Kami akan improve! Terima kasih feedback-nya 💪';
+      showToast(feedbackMsg);
+    }
+
+    function handleShare(button) {
+      const responseText = button.closest('.chat-bubble-ai').querySelector('p').textContent;
+      
+      // Show inline share options
+      const shareMenu = document.createElement('div');
+      shareMenu.className = 'absolute bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 z-50 text-xs';
+      shareMenu.style.position = 'fixed';
+      shareMenu.style.right = '20px';
+      shareMenu.style.top = button.getBoundingClientRect().top + 'px';
+      
+      shareMenu.innerHTML = `
+        <button onclick="copyToClipboard('${responseText.replace(/'/g, "\\'")}', this)" class="block w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+          📋 Copy
+        </button>
+        <button onclick="shareVia('whatsapp', '${responseText.replace(/'/g, "\\'")}', this)" class="block w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+          💬 WhatsApp
+        </button>
+        <button onclick="shareVia('twitter', '${responseText.replace(/'/g, "\\'")}', this)" class="block w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
+          𝕏 Twitter
+        </button>
+      `;
+      
+      document.body.appendChild(shareMenu);
+      
+      // Close menu when clicking elsewhere
+      setTimeout(() => {
+        document.addEventListener('click', function closeMenu(e) {
+          if (!shareMenu.contains(e.target) && e.target !== button) {
+            shareMenu.remove();
+            document.removeEventListener('click', closeMenu);
+          }
+        });
+      }, 100);
+    }
+
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+        document.querySelector('.absolute').remove();
+      });
+    }
+
+    function shareVia(platform, text, btn) {
+      const message = `${text}\n\n- dari AI Style Advisor`;
+      let url = '';
+      
+      if (platform === 'whatsapp') {
+        url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      } else if (platform === 'twitter') {
+        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+      }
+      
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+        showToast('Opened in new tab!');
+        document.querySelector('.absolute').remove();
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-20 lg:bottom-8 left-1/2 transform -translate-x-1/2 primary-bg text-white px-4 py-2 rounded-full text-sm z-50 fade-in';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 2000);
+    }
+
+    function sendQuickReply(message) {
+      document.getElementById('chat-input').value = message;
+      sendMessage();
+    }
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadedImage = e.target.result;
+          document.getElementById('preview-img').src = uploadedImage;
+          document.getElementById('image-preview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeImagePreview() {
+      uploadedImage = null;
+      document.getElementById('image-preview').classList.add('hidden');
+      document.getElementById('preview-img').src = '';
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function renderChatHistories() {
+      const container = document.getElementById('history-container');
+      container.innerHTML = '';
+      
+      chatHistories.forEach(history => {
+        const btn = document.createElement('button');
+        btn.className = `history-chip px-3 py-1.5 card-bg border rounded-full text-xs font-medium transition-all ${selectedHistory?.id === history.id ? 'primary-bg text-white border-transparent' : 'hover:border-gray-400'}`;
+        btn.textContent = history.title;
+        btn.type = 'button';
+        btn.onclick = (e) => {
+          e.preventDefault();
+          loadChatHistory(history);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function loadChatHistory(history) {
+      selectedHistory = history;
+      const chatContainer = document.getElementById('chat-messages');
+      chatContainer.innerHTML = '';
+      
+      // Add the history title as first message
+      const titleMsg = document.createElement('div');
+      titleMsg.className = 'flex gap-3 fade-in';
+      titleMsg.innerHTML = `
+        <div class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <div class="chat-bubble-ai p-4 max-w-xs lg:max-w-md">
+          <p class="text-sm"><b>${history.title}</b></p>
+          <p class="text-xs text-muted mt-1">${history.preview}</p>
+        </div>
+      `;
+      chatContainer.appendChild(titleMsg);
+      
+      // Show context-specific response
+      setTimeout(() => {
+        addAIResponse(history.title);
+      }, 500);
+      
+      // Update chip styles
+      renderChatHistories();
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // Carousel drag functionality with ultra-smooth momentum
+    const carousels = document.querySelectorAll('.carousel-container');
+    carousels.forEach(carousel => {
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let animationId = null;
+      let velocityTracker = [];
+      let lastScrollTime = 0;
+      
+      function getVelocity() {
+        if (velocityTracker.length === 0) return 0;
+        
+        let totalVelocity = 0;
+        let totalWeight = 0;
+        
+        // Weight recent velocities more heavily
+        velocityTracker.forEach((vel, index) => {
+          const weight = (index + 1) / velocityTracker.length;
+          totalVelocity += vel * weight;
+          totalWeight += weight;
+        });
+        
+        return totalVelocity / totalWeight;
+      }
+      
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        carousel.classList.add('grabbing');
+        startX = e.pageX;
+        scrollLeft = carousel.scrollLeft;
+        velocityTracker = [];
+        lastScrollTime = performance.now();
+        
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      });
+      
+      carousel.addEventListener('mouseleave', () => {
+        if (isDown) {
+          isDown = false;
+          carousel.classList.remove('grabbing');
+          applyMomentum();
+        }
+      });
+      
+      carousel.addEventListener('mouseup', () => {
+        if (isDown) {
+          isDown = false;
+          carousel.classList.remove('grabbing');
+          applyMomentum();
+        }
+      });
+      
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        
+        const now = performance.now();
+        const walk = e.pageX - startX;
+        const newScrollLeft = scrollLeft - walk;
+        
+        carousel.scrollLeft = newScrollLeft;
+        
+        // Calculate velocity from this frame
+        const timeDelta = Math.max(now - lastScrollTime, 1);
+        const velocity = -(e.pageX - startX) / timeDelta * 10; // Scaled for smoother feel
+        
+        velocityTracker.push(velocity);
+        
+        // Keep only last 5 velocities for smooth averaging
+        if (velocityTracker.length > 5) {
+          velocityTracker.shift();
+        }
+        
+        lastScrollTime = now;
+      });
+      
+      function applyMomentum() {
+        let velocity = getVelocity();
+        
+        // Only apply momentum if velocity is significant
+        if (Math.abs(velocity) < 0.5) return;
+        
+        const startTime = performance.now();
+        const duration = 1500; // Total animation duration in ms
+        
+        const momentum = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Exponential decay for natural momentum feel
+          const decay = Math.pow(1 - progress, 2.5);
+          const currentVelocity = velocity * decay;
+          
+          carousel.scrollLeft += currentVelocity;
+          
+          if (progress < 1) {
+            animationId = requestAnimationFrame(momentum);
+          } else {
+            animationId = null;
+          }
+        };
+        
+        animationId = requestAnimationFrame(momentum);
+      }
+    });
+
+    // Initialize
+    window.addEventListener('load', () => {
+      showPage('home');
+      renderChatHistories();
+      updateNavStates();
+      const profileTabEl = document.getElementById('profile-tab');
+      if (profileTabEl) {
+        switchSettingsTab('profile');
+      }
+    });
+
+    // ========== IMAGE MODAL & PREVIEW ==========
+    function openImageModal(index, imagesArray) {
+      try {
+        // Parse the images array if it's a string
+        if (typeof imagesArray === 'string') {
+          currentModalImages = JSON.parse(imagesArray.replace(/\\'/g, "'"));
+        } else {
+          currentModalImages = imagesArray;
+        }
+        currentModalImageIndex = index;
+        displayModalImage();
+        document.getElementById('image-modal').classList.remove('hidden');
+      } catch (err) {
+        console.error('Error opening modal:', err);
+      }
+    }
+
+    function closeImageModal() {
+      document.getElementById('image-modal').classList.add('hidden');
+    }
+
+    function displayModalImage() {
+      if (currentModalImages.length === 0) return;
+
+      const image = currentModalImages[currentModalImageIndex];
+      document.getElementById('modal-image').src = image.url;
+      document.getElementById('modal-title').textContent = image.title;
+      document.getElementById('modal-description').textContent = `Image ${currentModalImageIndex + 1} of ${currentModalImages.length}`;
+      document.getElementById('image-counter').textContent = `${currentModalImageIndex + 1} / ${currentModalImages.length}`;
+
+      // Update button states
+      document.getElementById('prev-image-btn').disabled = currentModalImageIndex === 0;
+      document.getElementById('next-image-btn').disabled = currentModalImageIndex === currentModalImages.length - 1;
+    }
+
+    function nextImage() {
+      if (currentModalImageIndex < currentModalImages.length - 1) {
+        currentModalImageIndex++;
+        displayModalImage();
+      }
+    }
+
+    function previousImage() {
+      if (currentModalImageIndex > 0) {
+        currentModalImageIndex--;
+        displayModalImage();
+      }
+    }
+
+    // Keyboard navigation for modal
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('image-modal');
+      if (modal.classList.contains('hidden')) return;
+
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') previousImage();
+      if (e.key === 'Escape') closeImageModal();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d6dbbc78798811b',t:'MTc3MjU5NDMwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
