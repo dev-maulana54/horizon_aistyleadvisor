@@ -74,7 +74,7 @@
             <nav class="flex-1 space-y-2">
                 <button
                     onclick="showPage('home')"
-                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'home') ? 'bg-white/20 text-white' : 'text-gray-400' ?>"
+                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'home') ? 'bg-white/20 text-white' : '' ?>"
                     data-page="home">
                     <i class="fas fa-home text-lg flex-shrink-0"></i>
                     <div class="text-left">
@@ -83,7 +83,7 @@
                 </button>
                 <button
                     onclick="showPage('chat')"
-                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'chat') ? 'bg-white/20 text-white' : '' ?>"
+                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'ai') ? 'bg-white/20 text-white' : '' ?>"
                     data-page="chat">
                     <i class="fas fa-comments text-lg flex-shrink-0"></i>
                     <div class="text-left">
@@ -92,7 +92,7 @@
                 </button>
                 <button
                     onclick="showPage('settings')"
-                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'settings') ? 'bg-white/20 text-white' : '' ?>"
+                    class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10  <?= ($menu == 'settings_profile') ? 'bg-white/20 text-white' : '' ?>"
                     data-page="settings">
                     <i class="fas fa-gear text-lg flex-shrink-0"></i>
                     <div class="text-left">

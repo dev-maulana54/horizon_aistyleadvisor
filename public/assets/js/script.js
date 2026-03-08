@@ -48,8 +48,12 @@ let tryOnOutfitImage = null;
 
 // ========== EARLY FUNCTION DEFINITIONS (before HTML runs) ==========
 function showPage(page) {
-  if (page == "chat") {
-    window.location.href = "chatai.php";
+  if (page == "home") {
+    window.location.href = baseUrl + "summary";
+  } else if (page == "chat") {
+    window.location.href = baseUrl + "ai";
+  } else if (page == "settings") {
+    window.location.href = baseUrl + "settings";
   }
 }
 
@@ -1582,8 +1586,8 @@ carousels.forEach((carousel) => {
 
 // Initialize
 window.addEventListener("load", () => {
-  showPage("home");
-  updateNavStates();
+  // showPage("home");
+  // updateNavStates();
   const profileTabEl = document.getElementById("profile-tab");
   if (profileTabEl) {
     switchSettingsTab("profile");
