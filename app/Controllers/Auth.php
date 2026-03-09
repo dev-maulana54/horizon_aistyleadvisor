@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Controllers;
+
+class Auth extends BaseController
+{
+    public function login()
+    {
+        $data['menu'] = 'login';
+        return view('app/login', $data);
+    }
+}
