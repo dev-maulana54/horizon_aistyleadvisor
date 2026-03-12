@@ -5,16 +5,16 @@ namespace App\Controllers;
 class Settings extends BaseController
 {
 
-    public function __construct()
+    // public function __construct()
+    // {
+    //     // Cek apakah session isLoggedIn tidak ada atau tidak bernilai true, maka redirect ke login
+
+    // }
+    public function index()
     {
-        // Cek apakah session isLoggedIn tidak ada atau tidak bernilai true, maka redirect ke login
-        // if (!session()->get('isLoggedIn') || session()->get('isLoggedIn') !== true) {
-        //     header('Location: ' . base_url('user/login'));
-        //     exit(); // ✅ WAJIB pakai exit() agar script berhenti
-        // }
-    }
-    public function index(): string
-    {
+        if (!session()->get('isLoggedIn') || session()->get('isLoggedIn') !== true) {
+            return redirect()->to(base_url('user/login'));
+        }
         $data['menu'] = 'settings_profile';
         return
             view('template/header', $data) .

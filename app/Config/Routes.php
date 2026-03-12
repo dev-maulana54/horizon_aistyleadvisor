@@ -20,4 +20,5 @@ $routes->get('/user/logout', 'Auth::logout');
 
 
 # API
-$routes->post('/api/register', 'Api::reg');
+$routes->post('/auth/register', 'Auth::reg');
+$routes->post('/auth/process_login', 'Auth::processLogin');

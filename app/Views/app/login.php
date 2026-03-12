@@ -673,7 +673,7 @@
                             <p id="login-password-error" class="text-red-500 text-xs mt-1 hidden error-message"></p>
                         </div>
                         <!-- Submit Button -->
-                        <button type="submit" onclick="handleLogin(event)" id="login-btn" class="btn-primary w-full py-4 px-6 rounded-xl text-white font-semibold text-base shadow-lg" style="background: linear-gradient(135deg, #800020, #a8324a);"> Masuk </button> <!-- Success/Error Message -->
+                        <button type="button" id="login-btn" class="btn-primary w-full py-4 px-6 rounded-xl text-white font-semibold text-base shadow-lg" style="background: linear-gradient(135deg, #800020, #a8324a);"> Masuk </button> <!-- Success/Error Message -->
                         <div id="login-message" class="hidden text-center py-3 px-4 rounded-xl text-sm font-medium"></div>
                     </form>
                     <!-- Register Link -->
@@ -688,12 +688,12 @@
                         <p class="text-gray-500 text-sm">Daftar untuk memulai perjalanan Anda</p>
                     </div>
                     <form id="register-form" class="space-y-4">
-                        <?= csrf_field() ?>
+
                         <!-- Full Name Input -->
                         <div class="input-group">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                             <div class="relative">
-                                <input type="text" id="register-name" class="w-full px-4 py-3.5 pl-12 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#800020] focus:bg-white text-gray-800 placeholder-gray-400" placeholder="John Doe">
+                                <input type="text" id="register-name" autocomplete="off" class="w-full px-4 py-3.5 pl-12 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#800020] focus:bg-white text-gray-800 placeholder-gray-400" placeholder="John Doe">
                                 <svg class="input-icon absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
@@ -703,7 +703,7 @@
                         <div class="input-group">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                             <div class="relative">
-                                <input type="email" id="register-email" class="w-full px-4 py-3.5 pl-12 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#800020] focus:bg-white text-gray-800 placeholder-gray-400" placeholder="nama@email.com">
+                                <input type="email" id="register-email" autocomplete="off" class="w-full px-4 py-3.5 pl-12 bg-gray-50 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#800020] focus:bg-white text-gray-800 placeholder-gray-400" placeholder="nama@email.com">
                                 <svg class="input-icon absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
@@ -727,7 +727,7 @@
                                     </svg>
                                 </button>
                             </div>
-
+                            <p id="register-password-error" class="text-red-500 text-xs mt-1 hidden error-message"></p>
                         </div><!-- Confirm Password Input -->
                         <div class="input-group">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
@@ -843,25 +843,32 @@
                 $('#register-message').addClass('hidden').removeClass('text-red-500 text-green-600');
 
                 $.ajax({
-                    url: "<?= base_url('api/register') ?>",
+                    url: "<?= base_url('auth/register') ?>",
                     type: "POST",
                     dataType: "json",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
                     data: {
                         name: $('#register-name').val().trim(),
                         email: $('#register-email').val().trim(),
                         password: $('#register-password').val(),
                         password_confirm: $('#register-confirm').val(),
                         terms: $('#terms').is(':checked') ? 1 : '',
-                        '<?= csrf_token() ?>': $('input[name="<?= csrf_token() ?>"]').val()
+
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            $('#register-message')
-                                .removeClass('hidden')
-                                .addClass('text-green-600')
-                                .text(response.message);
+                            Notify.fire({
+                                type: "success",
+                                title: "Berhasil!",
+                                text: response.message || "Akun berhasil dibuat. Silakan masuk.",
+                            });
 
-                            $('#register-form')[0].reset();
+                            // Delay 1000 milidetik (1 detik)
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         } else if (response.status === 'validation_error') {
                             if (response.errors.name) {
                                 $('#register-name-error').text(response.errors.name).removeClass('hidden');
@@ -891,18 +898,78 @@
                         }
 
                         // update token baru kalau regenerate aktif
-                        if (response.csrfHash) {
-                            $('input[name="<?= csrf_token() ?>"]').val(response.csrfHash);
+
+                    },
+                    error: function(xhr) {
+                        let res = xhr.responseJSON;
+
+
+
+                        $('#register-message')
+                            .removeClass('hidden')
+                            .addClass('text-red-500')
+                            .text(res?.message || 'Terjadi kesalahan server.');
+                    }
+                });
+            });
+
+            $('#login-btn').on('click', function(e) {
+                e.preventDefault();
+
+                // Reset semua error message
+                $('#login-email-error').text('').addClass('hidden');
+                $('#login-password-error').text('').addClass('hidden');
+                $('#login-message').addClass('hidden').removeClass('text-red-500 text-green-600');
+
+                $.ajax({
+                    url: "<?= base_url('/auth/process_login') ?>",
+                    type: "POST",
+                    dataType: "json",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    data: {
+                        email: $('#login-email').val().trim(),
+                        password: $('#login-password').val(),
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Notify.fire({
+                                type: "success",
+                                title: "Berhasil!",
+                                text: response.message || "Login berhasil. Mengalihkan...",
+                            });
+
+                            setTimeout(function() {
+                                window.location.href = response.redirect ?? "<?= base_url('/summary') ?>";
+                            }, 1000);
+
+                        } else if (response.status === 'validation_error') {
+                            if (response.errors.email) {
+                                $('#login-email-error').text(response.errors.email).removeClass('hidden');
+                            } else {
+                                $('#login-email-error').text('').addClass('hidden');
+                            }
+
+                            if (response.errors.password) {
+                                $('#login-password-error').text(response.errors.password).removeClass('hidden');
+                            } else {
+                                $('#login-password-error').text('').addClass('hidden');
+                            }
+
+                        } else if (response.status === 'error') {
+                            $('#login-message')
+                            Notify.fire({
+                                type: "error",
+                                title: "Gagal!",
+                                text: response.message || "Login gagal. Silakan coba lagi.",
+                            });
                         }
                     },
                     error: function(xhr) {
                         let res = xhr.responseJSON;
 
-                        if (res && res.csrfHash) {
-                            $('input[name="<?= csrf_token() ?>"]').val(res.csrfHash);
-                        }
-
-                        $('#register-message')
+                        $('#login-message')
                             .removeClass('hidden')
                             .addClass('text-red-500')
                             .text(res?.message || 'Terjadi kesalahan server.');
