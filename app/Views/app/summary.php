@@ -45,7 +45,7 @@
                         stroke-linecap="round" />
                 </svg>
             </div>
-            <span class="font-bold text-lg">AI Style Advisor</span>
+            <span class="font-bold text-lg">FitMatch AI</span>
         </div>
         <button
             onclick="toggleDarkMode()"
@@ -101,7 +101,7 @@
                         </p>
                         <h2 class="text-2xl lg:text-3xl font-bold mb-2">
                             Welcome,
-                            <span id="username-display">Maulana Saepul Akbar</span>
+                            <span id="username-display"><?= $nama_user ?? 'User' ?></span>
                         </h2>
                         <p class="opacity-90 text-sm lg:text-base">
                             Mau pergi ke mana hari ini? Mau pakai outfit apa?

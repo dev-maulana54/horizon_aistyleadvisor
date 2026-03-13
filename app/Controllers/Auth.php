@@ -148,4 +148,17 @@ class Auth extends BaseController
             'message' => 'Login berhasil',
         ]);
     }
+    public function logout()
+    {
+        // Menghancurkan seluruh data session
+        session()->destroy();
+
+        // Jika kamu ingin menghapus data spesifik saja tanpa menghancurkan session id-nya:
+        /*
+    session()->remove(['user_id', 'user_name', 'role', 'is_active', 'is_premium', 'isLoggedIn']);
+    */
+
+        // Mengarahkan user kembali ke halaman login dengan pesan sukses
+        return redirect()->to(base_url('user/login'))->with('success', 'Anda telah berhasil keluar.');
+    }
 }

@@ -67,8 +67,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold">AI Style</h1>
-                    <p class="text-xs opacity-80">Advisor</p>
+                    <h1 class="text-xl font-bold">FitMatch AI</h1>
+                    <!-- <p class="text-xs opacity-80">Advisor</p> -->
                 </div>
             </div>
             <nav class="flex-1 space-y-2">
@@ -99,6 +99,19 @@
                         <span class="font-medium block">Settings</span><span class="text-xs opacity-70">Aplikasi dan Akun</span>
                     </div>
                 </button>
+                <?php if (session()->get('isLoggedIn')): ?>
+
+
+                    <button
+                        onclick="showPage('logout')"
+                        class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-white/10"
+                        data-page="logout">
+                        <i class="fas fa-right-from-bracket text-lg flex-shrink-0"></i>
+                        <div class="text-left">
+                            <span class="font-medium block">Logout</span><span class="text-xs opacity-70">Keluar Halaman</span>
+                        </div>
+                    </button>
+                <?php endif; ?>
             </nav>
             <div class="mt-auto pt-6 border-t border-white/20">
                 <div class="flex items-center gap-3">
@@ -113,7 +126,7 @@
               " />
                     <div class="flex-1 min-w-0">
                         <p class="font-medium text-sm truncate" id="sidebar-username">
-                            Maulana Saepul Akbar
+                            <?= $nama_user ?>
                         </p>
                         <p class="text-xs opacity-70">Premium Member</p>
                     </div>
