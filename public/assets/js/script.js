@@ -54,6 +54,8 @@ function showPage(page) {
     window.location.href = baseUrl + "ai";
   } else if (page == "settings") {
     window.location.href = baseUrl + "settings";
+  } else if (page == "logout") {
+    window.location.href = baseUrl + "user/logout";
   }
 }
 

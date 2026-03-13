@@ -130,7 +130,7 @@
                       " />
                             <div class="flex-1">
                                 <h3 class="font-bold text-lg" id="settings-username">
-                                    Maulana Saepul Akbar
+                                    <?= $nama_user ?>
                                 </h3>
                                 <p class="text-muted text-sm">Premium Member</p>
                                 <div class="mt-2 flex gap-2">

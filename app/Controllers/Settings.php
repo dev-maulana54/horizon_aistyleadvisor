@@ -16,6 +16,7 @@ class Settings extends BaseController
             return redirect()->to(base_url('user/login'));
         }
         $data['menu'] = 'settings_profile';
+        $data['nama_user'] = session()->get('user_name');
         return
             view('template/header', $data) .
             view('app/settings', $data) .
