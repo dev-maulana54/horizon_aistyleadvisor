@@ -22,3 +22,7 @@ $routes->get('/user/logout', 'Auth::logout');
 # API
 $routes->post('/auth/register', 'Auth::reg');
 $routes->post('/auth/process_login', 'Auth::processLogin');
+
+
+#settings
+$routes->post('/settings/updatePersonalData', 'CrudController::updatePersonalData');

@@ -88,9 +88,7 @@
 
 
         <!-- SETTINGS PAGE -->
-        <div
-            id="page-settings"
-            class="page-content pb-20 lg:pb-0 fade-in">
+        <div id="page-settings" class="page-content pb-20 lg:pb-0 fade-in">
             <div class="p-4 lg:p-8">
                 <h2 class="text-2xl font-bold mb-6">Settings</h2>
                 <!-- Settings Tabs -->
@@ -120,7 +118,7 @@
                     <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
                         <div class="flex items-center gap-4">
                             <img
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
+                                src="<?= base_url('assets/img/aiimg.png') ?>"
                                 alt="Profile"
                                 class="w-16 h-16 rounded-2xl object-cover"
                                 loading="lazy"
@@ -132,26 +130,17 @@
                                 <h3 class="font-bold text-lg" id="settings-username">
                                     <?= $nama_user ?>
                                 </h3>
-                                <p class="text-muted text-sm">Premium Member</p>
+                                <?php if ($is_premium == 1): ?>
+                                    <p class="text-muted text-sm">Premium Member</p>
+                                <?php else: ?>
+                                    <p class="text-muted text-sm">Regular Member</p>
+                                <?php endif; ?>
                                 <div class="mt-2 flex gap-2">
                                     <span
                                         class="px-2 py-0.5 primary-bg text-white rounded-full text-xs">Style Enthusiast</span>
                                 </div>
                             </div>
-                            <button
-                                class="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                <svg
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewbox="0 0 24 24">
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                </svg>
-                            </button>
+
                         </div>
                         <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
                             <h4 class="font-semibold mb-4 flex items-center gap-2">
@@ -271,470 +260,173 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            <!-- Personal Data Tab -->
-            <div id="personal-tab" class="settings-tab hidden p-4 lg:p-8">
-                <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
-                    <h4 class="font-semibold mb-4">👤 Body Shape</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
-                            <input
-                                type="radio"
-                                name="body_shape"
-                                value="hourglass"
-                                class="hidden peer"
-                                onchange="updateBodyShapeUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-500 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="assets/img/hourglass.png"
-                                    alt="Hourglass body shape"
-                                    class="w-full h-full object-contain transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-pink-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-500 peer-checked:bg-pink-500 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Hourglass</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
-                            <input
-                                type="radio"
-                                name="body_shape"
-                                value="pear"
-                                class="hidden peer"
-                                onchange="updateBodyShapeUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-purple-500 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="assets/img/pear.png"
-                                    alt="Pear body shape"
-                                    class="w-full h-full object-contain transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-purple-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-purple-500 peer-checked:bg-purple-500 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Pear</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
-                            <input
-                                type="radio"
-                                name="body_shape"
-                                value="apple"
-                                class="hidden peer"
-                                onchange="updateBodyShapeUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-orange-500 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="assets/img/apple.png"
-                                    alt="Apple body shape"
-                                    class="w-full h-full object-contain transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-orange-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-orange-500 peer-checked:bg-orange-500 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Apple</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
-                            <input
-                                type="radio"
-                                name="body_shape"
-                                value="rectangle"
-                                class="hidden peer"
-                                onchange="updateBodyShapeUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-blue-500 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="assets/img/rectangle.png"
-                                    alt="Rectangle body shape"
-                                    class="w-full h-full object-contain transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-blue-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-blue-500 peer-checked:bg-blue-500 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Rectangle</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
-                            <input
-                                type="radio"
-                                name="body_shape"
-                                value="inverted-triangle"
-                                class="hidden peer"
-                                onchange="updateBodyShapeUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-green-500 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="assets/img/inverted.png"
-                                    alt="Inverted Triangle body shape"
-                                    class="w-full h-full object-contain transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-green-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-green-500 peer-checked:bg-green-500 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Inverted</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
-                    <h4 class="font-semibold mb-4">
-                        🎨 Style Preferences (Select multiple)
-                    </h4>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="minimalist"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1490578174853-bc519f5ee775?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Minimalist style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-gray-500/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Minimalist</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="bohemian"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-amber-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Bohemian style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-amber-600/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-amber-600 peer-checked:bg-amber-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Bohemian</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="classic"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-blue-700 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Classic style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-blue-700/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-blue-700 peer-checked:bg-blue-700 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Classic</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="trendy"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1559631065-cd4628902d4a?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Trendy style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-pink-600/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-600 peer-checked:bg-pink-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Trendy</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="sporty"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-green-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1622268537308-d3b1b0e17f7d?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Sporty style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-green-600/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-green-600 peer-checked:bg-green-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Sporty</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="edgy"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-900 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1611003228941-98852ba62227?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Edgy style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-gray-900/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-900 peer-checked:bg-gray-900 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Edgy</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="romantic"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-rose-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1595777712802-303e5edd5e06?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Romantic style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-rose-600/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-rose-600 peer-checked:bg-rose-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Romantic</span>
-                        </label>
-                        <label
-                            class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
-                            <input
-                                type="checkbox"
-                                name="style_pref"
-                                value="casual"
-                                class="hidden peer"
-                                onchange="updateStylePrefUI()" />
-                            <div
-                                class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-cyan-600 group-hover:border-gray-300 transition-all">
-                                <img
-                                    src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=300&amp;h=300&amp;fit=crop"
-                                    alt="Casual style"
-                                    class="w-full h-full object-cover transition-all"
-                                    loading="lazy" />
-                                <div
-                                    class="absolute inset-0 bg-black/0 peer-checked:bg-cyan-600/20 transition-colors"></div>
-                            </div>
-                            <div
-                                class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-cyan-600 peer-checked:bg-cyan-600 transition-all"></div>
-                            <span class="text-sm font-semibold text-center">Casual</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
-                    <h4 class="font-semibold mb-4">
-                        💚 Favorite Colors (Select multiple)
-                    </h4>
-                    <div class="space-y-3">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="red"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-red-500 border-2 border-gray-300"></span>
-                            <span class="text-sm">Red</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="blue"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-blue-500 border-2 border-gray-300"></span>
-                            <span class="text-sm">Blue</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="green"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-green-500 border-2 border-gray-300"></span>
-                            <span class="text-sm">Green</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="purple"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-purple-500 border-2 border-gray-300"></span>
-                            <span class="text-sm">Purple</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="black"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-black border-2 border-gray-300"></span>
-                            <span class="text-sm">Black</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                name="fav_color"
-                                value="white"
-                                class="w-4 h-4 accent-current" />
-                            <span
-                                class="inline-block w-4 h-4 rounded-full bg-white border-2 border-gray-300"></span>
-                            <span class="text-sm">White</span>
-                        </label>
-                    </div>
-                </div>
-                <button
-                    onclick="updatePersonalData()"
-                    class="w-full primary-bg text-white rounded-2xl py-3 font-medium hover:opacity-90 transition-opacity mb-24 lg:mb-8">
-                    Save Personal Data
-                </button>
-            </div>
-            <!-- Wardrobe Tab -->
-            <div id="wardrobe-tab" class="settings-tab hidden p-4 lg:p-8">
-                <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
-                    <h4 class="font-semibold mb-4 flex items-center gap-2">
-                        <i class="fas fa-folder-open primary-text"></i>
-                        <span id="category-name">Shirts</span>
-                    </h4>
-                    <!-- Category Buttons -->
-                    <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                        <button
-                            onclick="switchWardrobeCategory('shirts')"
-                            class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all primary-bg text-white border-current"
-                            data-category="shirts">
-                            👕 Shirts
-                        </button>
-                        <button
-                            onclick="switchWardrobeCategory('pants')"
-                            class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                            data-category="pants">
-                            👖 Pants
-                        </button>
-                        <button
-                            onclick="switchWardrobeCategory('shoes')"
-                            class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                            data-category="shoes">
-                            👟 Shoes
-                        </button>
-                        <button
-                            onclick="switchWardrobeCategory('accessories')"
-                            class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                            data-category="accessories">
-                            💍 Accessories
-                        </button>
-                    </div>
-                    <!-- Add Item Section -->
-                    <div class="add-item-section rounded-2xl p-4 mb-6">
-                        <h5 class="font-semibold text-sm mb-3">Add New Item</h5>
-                        <div class="space-y-3">
-                            <input
-                                type="text"
-                                id="item-name"
-                                placeholder="Item Name (e.g., Blue Polo Shirt)"
-                                class="w-full px-3 py-2 card-bg border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50" />
-                            <textarea
-                                id="item-desc"
-                                placeholder="Description (optional)"
-                                rows="2"
-                                class="w-full px-3 py-2 card-bg border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50"></textarea>
-                            <label class="block">
-                                <input
-                                    type="file"
-                                    id="wardrobe-upload"
-                                    accept="image/*"
-                                    multiple
-                                    onchange="handleWardrobeImageUpload(event)"
-                                    class="hidden" />
-                                <div
-                                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-current transition-colors">
-                                    <i
-                                        class="fas fa-cloud-upload-alt text-2xl text-muted mb-2"></i>
-                                    <p class="text-sm font-medium">Upload Images (Max 5)</p>
-                                    <p class="text-xs text-muted">
-                                        Click to select or drag images
-                                    </p>
-                                </div>
-                            </label>
-                            <div
-                                id="wardrobe-preview"
-                                class="hidden p-3 card-bg border rounded-lg flex flex-wrap gap-2 items-start"></div>
-                            <button
-                                onclick="addWardrobeItem()"
-                                class="w-full primary-bg text-white rounded-lg py-2 font-medium hover:opacity-90 transition-opacity text-sm">
-                                Add Item
-                            </button>
+                <div id="personal-tab" class="settings-tab hidden">
+                    <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+                        <h4 class="font-semibold mb-4">👤 Body Shape</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <?php foreach ($body_shape as $b_shape) : ?>
+                                <label
+                                    class="flex flex-col items-center gap-3 cursor-pointer group body-shape-option">
+                                    <input
+                                        type="radio"
+                                        name="body_shape"
+                                        value="<?= $b_shape['jenis_b_shape'] ?>"
+                                        class="hidden peer body-shape-input"
+                                        onchange="updateBodyShapeUI()" />
+                                    <div
+                                        class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-500 group-hover:border-gray-300 transition-all">
+                                        <img
+                                            src="assets/img/<?= $b_shape['image_b_shape'] ?>"
+                                            alt="<?= $b_shape['jenis_b_shape'] ?> body shape"
+                                            class="w-full h-full object-contain transition-all"
+                                            loading="lazy" />
+                                        <div
+                                            class="absolute inset-0 bg-black/0 peer-checked:bg-pink-500/20 transition-colors"></div>
+                                    </div>
+                                    <div
+                                        class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-pink-500 peer-checked:bg-pink-500 transition-all"></div>
+                                    <span class="text-sm font-semibold text-center"><?= $b_shape['jenis_b_shape'] ?></span>
+                                </label>
+                            <?php endforeach; ?>
+
                         </div>
                     </div>
-                    <!-- Items Display -->
-                    <div id="empty-wardrobe" class="text-center py-8">
-                        <i
-                            class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
-                        <p class="text-muted text-sm">
-                            No items yet. Add your first
-                            <span id="category-empty" class="lowercase">shirt</span>!
-                        </p>
+                    <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+                        <h4 class="font-semibold mb-4">
+                            🎨 Style Preferences (Select multiple)
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <?php foreach ($styles as $style) : ?>
+                                <label
+                                    class="flex flex-col items-center gap-3 cursor-pointer group style-pref-option">
+                                    <input
+                                        type="checkbox"
+                                        name="style_pref"
+                                        value="<?= $style['style_name'] ?>"
+                                        class="hidden peer style-pref-input"
+                                        onchange="updateStylePrefUI()" />
+                                    <div
+                                        class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-600 group-hover:border-gray-300 transition-all">
+                                        <img
+                                            src="assets/img/<?= $style['image_style'] ?>"
+                                            alt="<?= $style['style_name'] ?> style"
+                                            class="w-full h-full object-cover transition-all"
+                                            loading="lazy" />
+                                        <div
+                                            class="absolute inset-0 bg-black/0 peer-checked:bg-gray-500/20 transition-colors"></div>
+                                    </div>
+                                    <div
+                                        class="w-5 h-5 rounded-full border-2 border-gray-400 peer-checked:border-gray-600 peer-checked:bg-gray-600 transition-all"></div>
+                                    <span class="text-sm font-semibold text-center"><?= $style['style_name'] ?></span>
+                                </label>
+                            <?php endforeach; ?>
+
+
+
+
+
+
+                        </div>
                     </div>
-                    <div
-                        id="wardrobe-items"
-                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full"></div>
+
+                    <button class="w-full primary-bg text-white rounded-2xl py-3 font-medium updatePersonalData hover:opacity-90 transition-opacity mb-24 lg:mb-8">
+                        Save Personal Data
+                    </button>
+                </div>
+                <div id="wardrobe-tab" class="settings-tab hidden">
+                    <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
+                        <h4 class="font-semibold mb-4 flex items-center gap-2">
+                            <i class="fas fa-folder-open primary-text"></i>
+                            <span id="category-name">Shirts</span>
+                        </h4>
+                        <!-- Category Buttons -->
+                        <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+                            <button
+                                onclick="switchWardrobeCategory('shirts')"
+                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all primary-bg text-white border-current"
+                                data-category="shirts">
+                                👕 Shirts
+                            </button>
+                            <button
+                                onclick="switchWardrobeCategory('pants')"
+                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
+                                data-category="pants">
+                                👖 Pants
+                            </button>
+                            <button
+                                onclick="switchWardrobeCategory('shoes')"
+                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
+                                data-category="shoes">
+                                👟 Shoes
+                            </button>
+                            <button
+                                onclick="switchWardrobeCategory('accessories')"
+                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
+                                data-category="accessories">
+                                💍 Accessories
+                            </button>
+                        </div>
+                        <!-- Add Item Section -->
+                        <div class="add-item-section rounded-2xl p-4 mb-6">
+                            <h5 class="font-semibold text-sm mb-3">Add New Item</h5>
+                            <div class="space-y-3">
+                                <input
+                                    type="text"
+                                    id="item-name"
+                                    placeholder="Item Name (e.g., Blue Polo Shirt)"
+                                    class="w-full px-3 py-2 card-bg border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50" />
+                                <textarea
+                                    id="item-desc"
+                                    placeholder="Description (optional)"
+                                    rows="2"
+                                    class="w-full px-3 py-2 card-bg border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50"></textarea>
+                                <label class="block">
+                                    <input
+                                        type="file"
+                                        id="wardrobe-upload"
+                                        accept="image/*"
+                                        multiple
+                                        onchange="handleWardrobeImageUpload(event)"
+                                        class="hidden" />
+                                    <div
+                                        class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-current transition-colors">
+                                        <i
+                                            class="fas fa-cloud-upload-alt text-2xl text-muted mb-2"></i>
+                                        <p class="text-sm font-medium">Upload Images (Max 5)</p>
+                                        <p class="text-xs text-muted">
+                                            Click to select or drag images
+                                        </p>
+                                    </div>
+                                </label>
+                                <div
+                                    id="wardrobe-preview"
+                                    class="hidden p-3 card-bg border rounded-lg flex flex-wrap gap-2 items-start"></div>
+                                <button
+                                    onclick="addWardrobeItem()"
+                                    class="w-full primary-bg text-white rounded-lg py-2 font-medium hover:opacity-90 transition-opacity text-sm">
+                                    Add Item
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Items Display -->
+                        <div id="empty-wardrobe" class="text-center py-8">
+                            <i
+                                class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
+                            <p class="text-muted text-sm">
+                                No items yet. Add your first
+                                <span id="category-empty" class="lowercase">shirt</span>!
+                            </p>
+                        </div>
+                        <div
+                            id="wardrobe-items"
+                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full"></div>
+                    </div>
                 </div>
             </div>
+            <!-- Personal Data Tab -->
+
+            <!-- Wardrobe Tab -->
+
         </div>
     </div>
     <!-- Mobile Bottom Navigation -->
@@ -892,8 +584,3 @@
         </div>
     </div>
 </div>
-
-
-</body>
-
-</html>

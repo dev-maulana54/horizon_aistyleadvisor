@@ -1,0 +1,502 @@
+DEBUG - 2026-03-15 04:29:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 04:42:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 04:42:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 04:44:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 04:44:52 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456 in E:\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Connection.php:145
+Stack trace:
+#0 E:\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLSRV\Connection->connect(false)
+#1 E:\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM "...', Array, false)
+#3 E:\Ampps\www\horizon_aistyleadvisor\system\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+#4 E:\Ampps\www\horizon_aistyleadvisor\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#5 E:\Ampps\www\horizon_aistyleadvisor\app\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+#6 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+#7 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#8 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 E:\Ampps\www\horizon_aistyleadvisor\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 E:\Ampps\www\horizon_aistyleadvisor\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 E:\Ampps\www\horizon_aistyleadvisor\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 E:\Ampps\www\horizon_aistyleadvisor\system\rewrite.php(44): require_once('E:\\Ampps\\www\\ho...')
+#13 {main}
+CRITICAL - 2026-03-15 04:44:52 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLSRV]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456
+[Method: POST, Route: auth/process_login]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."users"
+WHERE "email" = :email:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 4 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 08:46:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 08:46:49 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456 in E:\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Connection.php:145
+Stack trace:
+#0 E:\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLSRV\Connection->connect(false)
+#1 E:\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 E:\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM "...', Array, false)
+#3 E:\Ampps\www\horizon_aistyleadvisor\system\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+#4 E:\Ampps\www\horizon_aistyleadvisor\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#5 E:\Ampps\www\horizon_aistyleadvisor\app\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+#6 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+#7 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+#8 E:\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 E:\Ampps\www\horizon_aistyleadvisor\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 E:\Ampps\www\horizon_aistyleadvisor\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 E:\Ampps\www\horizon_aistyleadvisor\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 E:\Ampps\www\horizon_aistyleadvisor\system\rewrite.php(44): require_once('E:\\Ampps\\www\\ho...')
+#13 {main}
+CRITICAL - 2026-03-15 08:46:49 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLSRV]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456
+[Method: POST, Route: auth/process_login]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."users"
+WHERE "email" = :email:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 4 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 08:49:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 08:49:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:07:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:07:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:07:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:07:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:07:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:18:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:18:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:18:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:19:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:19:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:19:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:19:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:19:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 12:21:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 13:11:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 13:16:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 13:24:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 13:58:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:08:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:09:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:12:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:12:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:22:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:23:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:43:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:48:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:49:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:51:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:53:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 14:54:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:00:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:33:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:38:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:43:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:44:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:47:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 15:50:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 16:23:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 16:27:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 16:46:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 16:50:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 16:56:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 17:00:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 17:16:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 17:44:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:13:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:14:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:14:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:14:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:22:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 19:22:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 20:21:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 20:35:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-15 20:35:27 --> ErrorException: Undefined variable $GetAllbodyShape
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 267.
+ 1 APPPATH\Views\app\settings.php(267): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $GetAllbodyShape', 'E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php', 267)
+ 2 SYSTEMPATH\View\View.php(226): include('E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('app/settings', [], true)
+ 5 APPPATH\Controllers\Settings.php(29): view('app/settings', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 20:36:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 20:48:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 20:59:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:01:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:01:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:01:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:01:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:05:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 21:09:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:19:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:19:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:19:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:21:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:21:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:21:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:21:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:22:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:22:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:23:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:23:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:24:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:25:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:27:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:28:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 22:28:02 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+CRITICAL - 2026-03-15 22:28:02 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+[Method: POST, Route: settings/updatePersonalData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 2 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BodyShapeUserModel.php(18): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\CrudController.php(54): App\Models\BodyShapeUserModel->checkUserHasBodyShape([...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 22:28:02 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = (2,5)
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = (2,5)
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 4 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BodyShapeUserModel.php(18): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\CrudController.php(54): App\Models\BodyShapeUserModel->checkUserHasBodyShape([...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 22:29:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:29:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:30:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:30:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 22:30:21 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+CRITICAL - 2026-03-15 22:30:21 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+[Method: POST, Route: settings/updatePersonalData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 2 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 4 APPPATH\Models\BodyShapeUserModel.php(18): CodeIgniter\BaseModel->first()
+ 5 APPPATH\Controllers\CrudController.php(54): App\Models\BodyShapeUserModel->checkUserHasBodyShape([...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 22:30:21 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ','.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = (2,2)
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = (2,2)
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:
+ ORDER BY (SELECT NULL)  OFFSET 0  ROWS FETCH NEXT 1 ROWS ONLY ', [...], false)
+ 4 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 6 APPPATH\Models\BodyShapeUserModel.php(18): CodeIgniter\BaseModel->first()
+ 7 APPPATH\Controllers\CrudController.php(54): App\Models\BodyShapeUserModel->checkUserHasBodyShape([...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 22:36:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 22:36:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:16:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:16:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:16:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 23:16:40 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'id_user'.
+CRITICAL - 2026-03-15 23:16:40 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'id_user'.
+[Method: POST, Route: settings/updatePersonalData]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."styles"
+WHERE "id_user" = :id_user:', [...], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\CrudController.php(76): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 23:16:40 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'id_user'.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT *
+FROM "db_fixmatchai"."dbo"."styles"
+WHERE "id_user" = 2')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM "db_fixmatchai"."dbo"."styles"
+WHERE "id_user" = 2')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM "db_fixmatchai"."dbo"."styles"
+WHERE "id_user" = :id_user:', [...], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\CrudController.php(76): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\CrudController->updatePersonalData()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\CrudController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:27:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:27:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:27:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:45:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-15 23:45:34 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\DtBodyShape::GetBodyShapeByUser
+[Method: GET, Route: settings]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Settings.php(28): CodeIgniter\Model->__call('GetBodyShapeByUser', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:45:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 23:45:52 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+CRITICAL - 2026-03-15 23:45:52 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+[Method: GET, Route: settings]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."user_id IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."user_id" = 2', [], false)
+ 2 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 23:45:52 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."user_id IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."user_id" = 2')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."user_id IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."user_id" = 2')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."user_id IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."user_id" = 2', [], false)
+ 4 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:46:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 23:46:33 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+CRITICAL - 2026-03-15 23:46:33 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+[Method: GET, Route: settings]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2', [], false)
+ 2 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 23:46:33 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."body_shape_id" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2', [], false)
+ 4 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:47:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 23:47:21 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier "CASE WHEN body_shape_user.id_user IS NOT NULL THEN 1 ELSE 0 END" could not be bound.
+CRITICAL - 2026-03-15 23:47:21 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier "CASE WHEN body_shape_user.id_user IS NOT NULL THEN 1 ELSE 0 END" could not be bound.
+[Method: GET, Route: settings]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."id_body_shape" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2', [], false)
+ 2 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 23:47:21 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier "CASE WHEN body_shape_user.id_user IS NOT NULL THEN 1 ELSE 0 END" could not be bound.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."id_body_shape" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."id_body_shape" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "dt_body_shape"."id", "dt_body_shape"."jenis_b_shape", "dt_body_shape"."image_b_shape", "CASE WHEN body_shape_user"."id_user IS NOT NULL THEN 1 ELSE 0 END" AS "is_checked"
+FROM "db_fixmatchai"."dbo"."dt_body_shape"
+LEFT JOIN "db_fixmatchai"."dbo"."body_shape_user" ON "body_shape_user"."id_body_shape" = "dt_body_shape"."id" AND "body_shape_user"."id_user" = 2', [], false)
+ 4 APPPATH\Models\DtBodyShape.php(39): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 APPPATH\Controllers\Settings.php(28): App\Models\DtBodyShape->GetBodyShapeWithChecked(2)
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:50:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-15 23:50:59 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\DtBodyShape::GetBodyShapeWithChecked
+[Method: GET, Route: settings]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Settings.php(28): CodeIgniter\Model->__call('GetBodyShapeWithChecked', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:51:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-15 23:51:21 --> [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+CRITICAL - 2026-03-15 23:51:21 --> CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+[Method: GET, Route: settings]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "body_shape_id"
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:', [...], false)
+ 2 APPPATH\Models\DtBodyShape.php(29): CodeIgniter\Database\SQLSRV\Builder->get()
+ 3 APPPATH\Controllers\Settings.php(29): App\Models\DtBodyShape->GetBodyShapeByUser(2)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+CRITICAL - 2026-03-15 23:51:21 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'body_shape_id'.
+in SYSTEMPATH\Database\SQLSRV\Connection.php on line 505.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\SQLSRV\Connection->execute('SELECT "body_shape_id"
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = 2')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT "body_shape_id"
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = 2')
+ 3 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query('SELECT "body_shape_id"
+FROM "db_fixmatchai"."dbo"."body_shape_user"
+WHERE "id_user" = :id_user:', [...], false)
+ 4 APPPATH\Models\DtBodyShape.php(29): CodeIgniter\Database\SQLSRV\Builder->get()
+ 5 APPPATH\Controllers\Settings.php(29): App\Models\DtBodyShape->GetBodyShapeByUser(2)
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:51:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-15 23:51:39 --> ErrorException: Undefined variable $shape
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 283.
+ 1 APPPATH\Views\app\settings.php(283): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $shape', 'E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php', 283)
+ 2 SYSTEMPATH\View\View.php(226): include('E:\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('app/settings', [], true)
+ 5 APPPATH\Controllers\Settings.php(33): view('app/settings', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Settings))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('E:\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-15 23:52:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-15 23:53:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

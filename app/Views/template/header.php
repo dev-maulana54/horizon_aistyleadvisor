@@ -6,15 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Style Advisor</title>
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script src="/_sdk/element_sdk.js"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="<?= base_url('assets/css/style.css') ?>"
-        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet" />
+    <link href="<?= base_url('assets/css/modal.css') ?>" rel="stylesheet" />
+    <link rel="stylesheet" href="<?= base_url('assets/css/notify_ai.css') ?>">
+    <style>
+        #edit-profile-modal .text-muted {
+            color: rgb(107 114 128);
+        }
+
+        .dark #edit-profile-modal .text-muted,
+        .dark-mode #edit-profile-modal .text-muted {
+            color: rgb(156 163 175);
+        }
+    </style>
 </head>
 
 <body class="h-full light-mode">
@@ -116,7 +123,7 @@
             <div class="mt-auto pt-6 border-t border-white/20">
                 <div class="flex items-center gap-3">
                     <img
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
+                        src="<?= base_url('assets/img/aiimg.png') ?>"
                         alt="Profile"
                         class="w-10 h-10 rounded-full object-cover"
                         loading="lazy"

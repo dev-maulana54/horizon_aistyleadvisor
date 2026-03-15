@@ -1,0 +1,415 @@
+/* =============================================
+       FitMatch Modal Plugin — CSS
+       ============================================= */
+
+:root {
+  --fm-backdrop: rgba(15, 23, 42, 0.55);
+  --fm-modal-bg: #ffffff;
+  --fm-modal-radius: 16px;
+  --fm-modal-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.25);
+  --fm-accent: #6c3bf5;
+  --fm-accent-hover: #5528d9;
+  --fm-text: #1e293b;
+  --fm-text-muted: #64748b;
+  --fm-border: #e2e8f0;
+  --fm-transition: 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Backdrop overlay */
+.fm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: var(--fm-backdrop);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--fm-transition),
+    visibility var(--fm-transition);
+}
+.fm-modal-backdrop.fm-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal container */
+.fm-modal {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--fm-transition),
+    visibility var(--fm-transition);
+}
+.fm-modal.fm-active {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal dialog box */
+.fm-modal-dialog {
+  background: var(--fm-modal-bg);
+  border-radius: var(--fm-modal-radius);
+  box-shadow: var(--fm-modal-shadow);
+  width: 100%;
+  max-width: 520px;
+  max-height: 85%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(30px) scale(0.96);
+  transition: transform var(--fm-transition);
+}
+.fm-modal.fm-active .fm-modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+/* Size variants */
+.fm-modal-dialog.fm-sm {
+  max-width: 380px;
+}
+.fm-modal-dialog.fm-lg {
+  max-width: 720px;
+}
+.fm-modal-dialog.fm-xl {
+  max-width: 960px;
+}
+
+/* Modal header */
+.fm-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--fm-border);
+  flex-shrink: 0;
+}
+.fm-modal-title {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--fm-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Close button */
+.fm-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--fm-text-muted);
+  cursor: pointer;
+  transition:
+    background 200ms,
+    color 200ms;
+  flex-shrink: 0;
+}
+.fm-modal-close:hover {
+  background: #f1f5f9;
+  color: var(--fm-text);
+}
+.fm-modal-close:focus-visible {
+  outline: 2px solid var(--fm-accent);
+  outline-offset: 2px;
+}
+
+/* Modal body */
+.fm-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  font-family: "DM Sans", sans-serif;
+  color: var(--fm-text);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* Modal footer */
+.fm-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--fm-border);
+  flex-shrink: 0;
+}
+
+/* Button styles used inside modal footer */
+.fm-btn {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 200ms,
+    box-shadow 200ms,
+    transform 120ms;
+  line-height: 1;
+}
+.fm-btn:active {
+  transform: scale(0.97);
+}
+.fm-btn:focus-visible {
+  outline: 2px solid var(--fm-accent);
+  outline-offset: 2px;
+}
+.fm-btn-primary {
+  background: var(--fm-accent);
+  color: #fff;
+}
+.fm-btn-primary:hover {
+  background: var(--fm-accent-hover);
+  box-shadow: 0 4px 14px rgba(108, 59, 245, 0.35);
+}
+.fm-btn-ghost {
+  background: transparent;
+  color: var(--fm-text-muted);
+}
+.fm-btn-ghost:hover {
+  background: #f1f5f9;
+  color: var(--fm-text);
+}
+
+/* Prevent body scroll when modal is open */
+body.fm-modal-open {
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .fm-modal-dialog {
+    max-width: 100%;
+    max-height: 90%;
+    border-radius: 14px 14px 0 0;
+    align-self: flex-end;
+  }
+  .fm-modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .fm-modal.fm-active .fm-modal-dialog {
+    transform: translateY(0);
+  }
+  .fm-modal-dialog {
+    transform: translateY(100%);
+  }
+  .fm-modal-header {
+    padding: 16px 20px;
+  }
+  .fm-modal-body {
+    padding: 20px;
+  }
+  .fm-modal-footer {
+    padding: 14px 20px;
+  }
+}
+
+/* =============================================
+       Demo Page Styles
+       ============================================= */
+.demo-page {
+  font-family: "DM Sans", sans-serif;
+  background: linear-gradient(160deg, #f0ecff 0%, #e8f4f8 50%, #fdf2f8 100%);
+  min-height: 100%;
+}
+.demo-hero {
+  text-align: center;
+  padding: 60px 24px 40px;
+}
+.demo-hero h1 {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+.demo-hero h1 span {
+  color: var(--fm-accent);
+}
+.demo-hero p {
+  color: var(--fm-text-muted);
+  font-size: 1.05rem;
+  max-width: 480px;
+  margin: 0 auto 12px;
+  line-height: 1.6;
+}
+.demo-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: rgba(108, 59, 245, 0.1);
+  color: var(--fm-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-bottom: 24px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+.demo-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 24px;
+  border: 1px solid #e8ecf1;
+  transition:
+    box-shadow 250ms,
+    transform 250ms;
+}
+.demo-card:hover {
+  box-shadow: 0 12px 32px rgba(108, 59, 245, 0.08);
+  transform: translateY(-2px);
+}
+.demo-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #fff;
+}
+.demo-card h3 {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--fm-text);
+  margin: 0 0 6px;
+}
+.demo-card p {
+  color: var(--fm-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0 0 18px;
+}
+.demo-card .fm-btn {
+  width: 100%;
+  text-align: center;
+}
+
+/* Code block style inside modal body */
+.fm-code-block {
+  background: #f8fafc;
+  border: 1px solid var(--fm-border);
+  border-radius: 10px;
+  padding: 16px;
+  font-family: "Courier New", monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: #334155;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.fm-code-block .tag {
+  color: #6c3bf5;
+}
+.fm-code-block .attr {
+  color: #0891b2;
+}
+.fm-code-block .val {
+  color: #d946ef;
+}
+.fm-code-block .comment {
+  color: #94a3b8;
+}
+
+.fm-usage-section {
+  margin-bottom: 18px;
+}
+.fm-usage-section h4 {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0 0 8px;
+  color: var(--fm-text);
+}
+
+/* Form inside modal */
+.fm-form-group {
+  margin-bottom: 16px;
+}
+.fm-form-group label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--fm-text);
+  margin-bottom: 6px;
+}
+.fm-form-group input,
+.fm-form-group select,
+.fm-form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--fm-border);
+  border-radius: 10px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+  color: var(--fm-text);
+  transition:
+    border-color 200ms,
+    box-shadow 200ms;
+  background: #fff;
+  box-sizing: border-box;
+}
+.fm-form-group input:focus,
+.fm-form-group select:focus,
+.fm-form-group textarea:focus {
+  outline: none;
+  border-color: var(--fm-accent);
+  box-shadow: 0 0 0 3px rgba(108, 59, 245, 0.12);
+}
+.fm-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.fm-inline-toast {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 0.875rem;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.fm-inline-toast.fm-show {
+  display: flex;
+}
+
+.demo-footer {
+  text-align: center;
+  padding: 20px 24px 32px;
+  color: var(--fm-text-muted);
+  font-size: 0.8rem;
+}

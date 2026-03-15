@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\DtBodyShape;
+use App\Models\StylesModel;
+
 class Settings extends BaseController
 {
 
@@ -15,11 +18,18 @@ class Settings extends BaseController
         if (!session()->get('isLoggedIn') || session()->get('isLoggedIn') !== true) {
             return redirect()->to(base_url('user/login'));
         }
+
+        $body_shape_model = new DtBodyShape();
+        $styles_model = new StylesModel();
         $data['menu'] = 'settings_profile';
+        $data['title'] = 'Settings Profile';
         $data['nama_user'] = session()->get('user_name');
+        $data['is_premium'] = session()->get('is_premium');
+        $data['body_shape'] = $body_shape_model->GetAllbodyShape();
+        $data['styles'] = $styles_model->getAllStyles();
         return
             view('template/header', $data) .
             view('app/settings', $data) .
-            view('template/footer');
+            view('template/footer', $data);
     }
 }
