@@ -21,6 +21,74 @@
         .dark-mode #edit-profile-modal .text-muted {
             color: rgb(156 163 175);
         }
+
+        .wardrobe-category-btn {
+            background: #fff;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .wardrobe-category-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .empty-image-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto 16px;
+        }
+
+        .empty-image-item {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+        }
+
+        .empty-image-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+        }
+
+        .empty-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .empty-image-remove {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #7B1E2B;
+            /* maroon */
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .empty-image-remove:hover {
+            background: #5a1420;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 

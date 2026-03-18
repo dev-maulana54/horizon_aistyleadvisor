@@ -341,30 +341,15 @@
                         </h4>
                         <!-- Category Buttons -->
                         <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                            <button
-                                onclick="switchWardrobeCategory('shirts')"
-                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all primary-bg text-white border-current"
-                                data-category="shirts">
-                                👕 Shirts
-                            </button>
-                            <button
-                                onclick="switchWardrobeCategory('pants')"
-                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                                data-category="pants">
-                                👖 Pants
-                            </button>
-                            <button
-                                onclick="switchWardrobeCategory('shoes')"
-                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                                data-category="shoes">
-                                👟 Shoes
-                            </button>
-                            <button
-                                onclick="switchWardrobeCategory('accessories')"
-                                class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all border-gray-200"
-                                data-category="accessories">
-                                💍 Accessories
-                            </button>
+                            <?php foreach ($type_wardrobe as  $type) : ?>
+                                <button
+                                    onclick="switchWardrobeCategory('<?= $type['type_wardrobe'] ?>', this)"
+                                    class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all"
+                                    data-category="<?= $type['type_wardrobe'] ?>" data-id="<?= $type['id'] ?>">
+                                    <?= $type['type_wardrobe'] ?>
+                                </button>
+                            <?php endforeach; ?>
+
                         </div>
                         <!-- Add Item Section -->
                         <div class="add-item-section rounded-2xl p-4 mb-6">
@@ -375,16 +360,13 @@
                                     id="item-name"
                                     placeholder="Item Name (e.g., Blue Polo Shirt)"
                                     class="w-full px-3 py-2 card-bg border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50" />
-                                <textarea
-                                    id="item-desc"
-                                    placeholder="Description (optional)"
-                                    rows="2"
-                                    class="w-full px-3 py-2 card-bg border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50"></textarea>
+
                                 <label class="block">
                                     <input
                                         type="file"
                                         id="wardrobe-upload"
                                         accept="image/*"
+                                        name="wardrobe_images"
                                         multiple
                                         onchange="handleWardrobeImageUpload(event)"
                                         class="hidden" />
@@ -402,20 +384,37 @@
                                     id="wardrobe-preview"
                                     class="hidden p-3 card-bg border rounded-lg flex flex-wrap gap-2 items-start"></div>
                                 <button
-                                    onclick="addWardrobeItem()"
-                                    class="w-full primary-bg text-white rounded-lg py-2 font-medium hover:opacity-90 transition-opacity text-sm">
+
+                                    class="w-full primary-bg text-white rounded-lg py-2 font-medium hover:opacity-90 transition-opacity text-sm add-wardrobe-item">
                                     Add Item
                                 </button>
                             </div>
                         </div>
                         <!-- Items Display -->
                         <div id="empty-wardrobe" class="text-center py-8">
-                            <i
-                                class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
+                            <div id="empty-image-list" class="empty-image-list">
+
+                                <div class="empty-image-item">
+                                    <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=500&q=80" alt="shirt">
+                                    <button class="empty-image-remove">×</button>
+                                </div>
+
+                                <div class="empty-image-item">
+                                    <img src="https://images.unsplash.com/photo-1602810316693-3667c854239a?auto=format&fit=crop&w=500&q=80" alt="shirt">
+                                    <button class="empty-image-remove">×</button>
+                                </div>
+
+                                <div class="empty-image-item">
+                                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500&q=80" alt="pants">
+                                    <button class="empty-image-remove">×</button>
+                                </div>
+
+                            </div>
+                            <!-- <i class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
                             <p class="text-muted text-sm">
                                 No items yet. Add your first
                                 <span id="category-empty" class="lowercase">shirt</span>!
-                            </p>
+                            </p> -->
                         </div>
                         <div
                             id="wardrobe-items"

@@ -1,0 +1,215 @@
+DEBUG - 2026-03-18 06:52:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 06:52:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 06:52:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-03-18 06:52:30 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'CBI\msa4368'. SQLSTATE: 28000, code: 18456
+[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Cannot open database "db_fixmatchai" requested by the login. The login failed. SQLSTATE: 42000, code: 4060 in C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Connection.php:145
+Stack trace:
+#0 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLSRV\Connection->connect()
+#1 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query()
+#3 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+#4 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#5 C:\Program Files\Ampps\www\horizon_aistyleadvisor\app\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+#6 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+#7 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+#8 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#9 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#11 C:\Program Files\Ampps\www\horizon_aistyleadvisor\public\index.php(59): CodeIgniter\Boot::bootWeb()
+#12 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\rewrite.php(44): require_once('...')
+#13 {main}
+CRITICAL - 2026-03-18 06:52:30 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLSRV]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'CBI\msa4368'. SQLSTATE: 28000, code: 18456
+[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Cannot open database "db_fixmatchai" requested by the login. The login failed. SQLSTATE: 42000, code: 4060
+[Method: POST, Route: auth/process_login]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 4 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+ERROR - 2026-03-18 06:53:05 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456 in C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Connection.php:145
+Stack trace:
+#0 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(419): CodeIgniter\Database\SQLSRV\Connection->connect()
+#1 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query()
+#3 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+#4 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\BaseModel.php(715): CodeIgniter\Model->doFirst()
+#5 C:\Program Files\Ampps\www\horizon_aistyleadvisor\app\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+#6 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+#7 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+#8 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+#9 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+#11 C:\Program Files\Ampps\www\horizon_aistyleadvisor\public\index.php(59): CodeIgniter\Boot::bootWeb()
+#12 C:\Program Files\Ampps\www\horizon_aistyleadvisor\system\rewrite.php(44): require_once('...')
+#13 {main}
+CRITICAL - 2026-03-18 06:53:05 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [SQLSRV]: [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Login failed for user 'sa'. SQLSTATE: 28000, code: 18456
+[Method: POST, Route: auth/process_login]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\SQLSRV\Builder.php(656): CodeIgniter\Database\BaseConnection->query()
+ 3 SYSTEMPATH\Model.php(330): CodeIgniter\Database\SQLSRV\Builder->get()
+ 4 SYSTEMPATH\BaseModel.php(715): CodeIgniter\Model->doFirst()
+ 5 APPPATH\Controllers\Auth.php(119): CodeIgniter\BaseModel->first()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Auth->processLogin()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 06:53:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 06:53:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 06:53:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 06:53:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:47:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:47:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:47:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:47:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:47:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:47:36 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:48:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:48:07 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:48:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:48:19 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:48:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:48:20 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:49:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:49:28 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:49:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:49:59 --> ErrorException: Undefined array key "image_style"
+[Method: GET, Route: settings]
+in APPPATH\Views\app\settings.php on line 311.
+ 1 APPPATH\Views\app\settings.php(311): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\app\\Views\\app\\settings.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render()
+ 5 APPPATH\Controllers\Settings.php(32): view()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:50:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:55:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2026-03-18 12:55:23 --> CodeIgniter\Exceptions\BadMethodCallException: Call to undefined method App\Models\Wardrobe::getAll
+[Method: GET, Route: settings]
+in SYSTEMPATH\Model.php on line 927.
+ 1 APPPATH\Controllers\Settings.php(32): CodeIgniter\Model->__call()
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Settings->index()
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\Program Files\\Ampps\\www\\horizon_aistyleadvisor\\public\\index.php')
+DEBUG - 2026-03-18 12:55:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 12:57:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:04:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:06:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:07:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:07:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:07:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 13:08:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:03:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:10:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:16:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:18:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:30:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:36:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:37:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:37:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:37:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:37:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:38:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 14:38:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:09:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:10:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:23:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:24:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:26:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:33:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:34:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:41:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-03-18 15:42:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

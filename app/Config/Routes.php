@@ -26,3 +26,4 @@ $routes->post('/auth/process_login', 'Auth::processLogin');
 
 #settings
 $routes->post('/settings/updatePersonalData', 'CrudController::updatePersonalData');
+$routes->post('/settings/saveWardrobe', 'CrudController::saveWardrobe');

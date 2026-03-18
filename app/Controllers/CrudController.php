@@ -6,6 +6,7 @@ use App\Models\DtBodyShape;
 use App\Models\BodyShapeUserModel;
 use App\Models\StylesModel;
 use App\Models\StylesPreferenceModel;
+use App\Models\Wardrobe;
 use CodeIgniter\Controller;
 
 class CrudController extends Controller
@@ -148,5 +149,188 @@ class CrudController extends Controller
             'status'  => 'success',
             'message' => 'Personal data updated successfully!',
         ]);
+    }
+    public function saveWardrobe()
+    {
+        $db_wardrobe = new Wardrobe();
+
+        try {
+            $idUser = session()->get('user_id');
+
+            if (!$idUser) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'User belum login'
+                ]);
+            }
+
+            $namaItem = trim($this->request->getPost('nama_item'));
+            $idJenisWardrobe = $this->request->getPost('id_jenis_wardrobe');
+            $files = $this->request->getFiles();
+
+            if (empty($namaItem)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Nama item wajib diisi'
+                ]);
+            }
+
+            if (empty($idJenisWardrobe)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Jenis wardrobe wajib dipilih'
+                ]);
+            }
+
+            if (!isset($files['wardrobe_images'])) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'File gambar tidak ditemukan'
+                ]);
+            }
+
+            $uploadedFiles = $this->request->getFileMultiple('wardrobe_images');
+
+            if (!is_array($uploadedFiles)) {
+                $uploadedFiles = [$uploadedFiles];
+            }
+
+            $validFiles = [];
+            foreach ($uploadedFiles as $file) {
+                if ($file && $file->isValid()) {
+                    $validFiles[] = $file;
+                }
+            }
+
+            if (empty($validFiles)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Tidak ada file valid yang diupload'
+                ]);
+            }
+
+            $allowedMime = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
+
+            // cek existing berdasarkan user + jenis wardrobe
+            $existingWardrobe = $db_wardrobe
+                ->where('id_user', $idUser)
+                ->where('id_jenis_wardrobe', $idJenisWardrobe)
+                ->first();
+
+            $existingData = [];
+
+            if ($existingWardrobe && !empty($existingWardrobe['file_name'])) {
+                $decoded = json_decode($existingWardrobe['file_name'], true);
+                if (is_array($decoded)) {
+                    $existingData = $decoded;
+                }
+            }
+
+            // hitung total file lama
+            $totalExistingFiles = 0;
+            foreach ($existingData as $item) {
+                if (isset($item['files']) && is_array($item['files'])) {
+                    $totalExistingFiles += count($item['files']);
+                }
+            }
+
+            $newUploadCount = count($validFiles);
+            $totalAfterUpload = $totalExistingFiles + $newUploadCount;
+
+            if ($totalExistingFiles >= 5) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Maksimal 5 gambar sudah tercapai, tidak bisa menambah lagi'
+                ]);
+            }
+
+            if ($totalAfterUpload > 5) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Total gambar melebihi batas maksimal 5'
+                ]);
+            }
+
+            $uploadPath = WRITEPATH . 'uploads/wardrobe/';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            $savedFileNames = [];
+
+            foreach ($validFiles as $index => $file) {
+                $mime = $file->getMimeType();
+
+                if (!in_array($mime, $allowedMime)) {
+                    return $this->response->setJSON([
+                        'status'  => false,
+                        'message' => 'Format file harus jpg, jpeg, png, atau webp'
+                    ]);
+                }
+
+                $originalName = pathinfo($file->getClientName(), PATHINFO_FILENAME);
+                $safeOriginalName = preg_replace('/[^A-Za-z0-9_-]/', '_', strtolower($originalName));
+                $extension = strtolower($file->getExtension());
+
+                // format: fixmatchai_(nama file)
+                $newName = 'fixmatchai_' . $safeOriginalName . '_' . time() . '_' . uniqid() . '.' . $extension;
+
+                $file->move($uploadPath, $newName);
+                $savedFileNames[] = $newName;
+            }
+
+            if (empty($savedFileNames)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Tidak ada file yang berhasil diupload'
+                ]);
+            }
+
+            // object baru yang akan ditambahkan ke array JSON
+            $newEntry = [
+                'nama_item' => $namaItem,
+                'files'     => $savedFileNames
+            ];
+
+            if ($existingWardrobe) {
+                // append data baru, bukan replace
+                $existingData[] = $newEntry;
+
+                $updateData = [
+                    'file_name' => json_encode($existingData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                    'update_at' => date('Y-m-d H:i:s'),
+                ];
+
+                $db_wardrobe->update($existingWardrobe['id'], $updateData);
+
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Data wardrobe berhasil ditambahkan',
+                    'data'    => $existingData
+                ]);
+            } else {
+                $data = [
+                    'id_user'           => $idUser,
+                    'id_jenis_wardrobe' => $idJenisWardrobe,
+                    'nama_item'         => null, // karena nama_item sekarang masuk ke JSON
+                    'file_name'         => json_encode([$newEntry], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                    'update_at'         => date('Y-m-d H:i:s'),
+                ];
+
+                $db_wardrobe->insert($data);
+
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Wardrobe berhasil disimpan',
+                    'data'    => $data
+                ]);
+            }
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Gagal simpan data',
+                'error'   => $e->getMessage()
+            ]);
+        }
     }
 }

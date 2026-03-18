@@ -4,12 +4,12 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BodyShapeUserModel extends Model
+class TypeWardrobe extends Model
 {
-    protected $table            = 'body_shape_user';
-    protected $primaryKey       = 'id_dt';
+    protected $table            = 'type_wardrobe';
+    protected $primaryKey       = 'id';
     protected $returnType       = 'array';
-    protected $allowedFields    = ['id_body_shape', 'id_user'];
+    protected $allowedFields    = ['type_wardrobe'];
     protected $useTimestamps    = false;
 
     // Query Builder untuk registrasi user baru

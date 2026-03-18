@@ -270,30 +270,13 @@ function getFeatureMeta(key) {
 }
 
 // ========== WARDROBE MANAGEMENT ==========
-function switchWardrobeCategory(category) {
-  currentWardrobeCategory = category;
+function switchWardrobeCategory(category, el) {
+  $(".wardrobe-category-btn").removeClass("active");
+  $(el).addClass("active");
 
-  const categoryNames = {
-    shirts: "Shirts",
-    pants: "Pants",
-    shoes: "Shoes",
-    accessories: "Accessories",
-  };
-
-  document.getElementById("category-name").textContent =
-    categoryNames[category];
-
-  document.querySelectorAll(".wardrobe-category-btn").forEach((btn) => {
-    if (btn.dataset.category === category) {
-      btn.classList.add("primary-bg", "text-white", "border-current");
-      btn.classList.remove("border-gray-200");
-    } else {
-      btn.classList.remove("primary-bg", "text-white", "border-current");
-      btn.classList.add("border-gray-200");
-    }
-  });
-
-  renderWardrobeItems();
+  // lanjutkan logic lama kamu di sini
+  $("#category-name").text($(el).text().trim());
+  $("#category-empty").text($(el).text().trim().toLowerCase());
 }
 
 // Wardrobe Image Upload - Multiple (Max 5)
@@ -1602,4 +1585,65 @@ window.addEventListener("load", () => {
   }
   renderHistoryList("");
   refreshTryOnWardrobeSelect();
+});
+
+$(".add-wardrobe-item").click(function () {
+  var itemName = $("#item-name").val().trim();
+
+  var files = $("#wardrobe-upload")[0].files;
+  var idJenisWardrobe = $(".wardrobe-category-btn.active").data("id");
+  if (!itemName) {
+    showToast("Please enter item name");
+    return;
+  }
+
+  if (files.length === 0) {
+    showToast("Please upload at least 1 image");
+    return;
+  }
+
+  if (files.length > 5) {
+    showToast("Max upload 5 images");
+    return;
+  }
+
+  var formData = new FormData();
+  formData.append("nama_item", itemName);
+  formData.append("id_jenis_wardrobe", idJenisWardrobe);
+
+  for (let i = 0; i < files.length; i++) {
+    formData.append("wardrobe_images", files[i]);
+  }
+
+  $.ajax({
+    url: baseUrl + "settings/saveWardrobe",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "json",
+    beforeSend: function () {
+      $(".add-wardrobe-item").prop("disabled", true);
+    },
+    success: function (response) {
+      $(".add-wardrobe-item").prop("disabled", false);
+
+      if (response.status) {
+        showToast(response.message);
+
+        $("#item-name").val("");
+        $("#jenis-wardrobe").val("");
+        $("#wardrobe-upload").val("");
+
+        console.log(response.data);
+      } else {
+        showToast(response.message);
+      }
+    },
+    error: function (xhr) {
+      $(".add-wardrobe-item").prop("disabled", false);
+      showToast("Terjadi kesalahan server");
+      console.log(xhr.responseText);
+    },
+  });
 });
