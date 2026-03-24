@@ -231,58 +231,75 @@
                     <div
                         id="chat-messages"
                         class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 lg:pb-28">
-                        <!-- AI Welcome Message -->
-                        <div class="flex gap-3 fade-in">
-                            <div
-                                class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
-                                <svg
-                                    class="w-5 h-5 text-white"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <!-- AI Sparkle (LEFT - moved higher) -->
-                                    <path
-                                        d="M6 4l.5 1.5L8 6l-1.5.5L6 8l-.5-1.5L4 6l1.5-.5L6 4z"
-                                        fill="currentColor"
-                                        opacity="0.9" />
 
-                                    <!-- AI Sparkle (RIGHT) -->
-                                    <path
-                                        d="M19 2l.6 1.8L21.4 4.5l-1.8.6L19 7l-.6-1.9-1.8-.6 1.8-.7L19 2z"
-                                        fill="currentColor"
-                                        opacity="0.9" />
+                        <?php if (!empty($slug)) : ?>
+                            <?php foreach ($history as $message): ?>
+                                <div class="flex gap-3 fade-in <?= $message['role'] === 1 ? 'justify-end' : 'typing-msg' ?>">
+                                    <?php if ($message['role'] === 0): ?>
+                                        <div
+                                            class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+                                            <svg
+                                                class="w-5 h-5 text-white"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <!-- AI Sparkle (LEFT - moved higher) -->
+                                                <path
+                                                    d="M6 4l.5 1.5L8 6l-1.5.5L6 8l-.5-1.5L4 6l1.5-.5L6 4z"
+                                                    fill="currentColor"
+                                                    opacity="0.9" />
 
-                                    <!-- Head -->
-                                    <circle
-                                        cx="12"
-                                        cy="6"
-                                        r="2.5"
-                                        stroke="currentColor"
-                                        stroke-width="1.8" />
+                                                <!-- AI Sparkle (RIGHT) -->
+                                                <path
+                                                    d="M19 2l.6 1.8L21.4 4.5l-1.8.6L19 7l-.6-1.9-1.8-.6 1.8-.7L19 2z"
+                                                    fill="currentColor"
+                                                    opacity="0.9" />
 
-                                    <!-- Body -->
-                                    <path
-                                        d="M6.5 20c.5-4 3-6 5.5-6s5 2 5.5 6"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round" />
+                                                <!-- Head -->
+                                                <circle
+                                                    cx="12"
+                                                    cy="6"
+                                                    r="2.5"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8" />
 
-                                    <!-- Arms -->
-                                    <path
-                                        d="M4.5 13c2-1 4-2 7.5-2s5.5 1 7.5 2"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </div>
-                            <div class="chat-bubble-ai p-4 max-w-xs lg:max-w-md">
-                                <p class="text-sm">
-                                    Halo! 👋 Saya AI Style Assistant. Saya bisa bantu kamu
-                                    memilih outfit yang cocok untuk berbagai acara. Mau pergi ke
-                                    mana hari ini?
-                                </p>
-                            </div>
-                        </div>
+                                                <!-- Body -->
+                                                <path
+                                                    d="M6.5 20c.5-4 3-6 5.5-6s5 2 5.5 6"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8"
+                                                    stroke-linecap="round" />
+
+                                                <!-- Arms -->
+                                                <path
+                                                    d="M4.5 13c2-1 4-2 7.5-2s5.5 1 7.5 2"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </div>
+
+                                    <?php else: ?>
+
+                                    <?php endif; ?>
+
+                                    <div class="<?= $message['role'] === 0 ? 'chat-bubble-ai' : 'chat-bubble-user' ?> p-4 max-w-xs lg:max-w-md">
+                                        <?php if (!empty($slug)) : ?>
+                                            <p class="text-sm">
+                                                <?= $message['conversation'] ?>
+                                            </p>
+                                        <?php else : ?>
+                                            <p class="text-sm">
+                                                Halo! 👋 Saya AI Style Assistant. Saya bisa bantu kamu memilih outfit yang cocok untuk berbagai acara. Mau pergi ke mana hari ini?
+                                            </p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <!-- AI Welcome Message -->
+
+                        <?php endif; ?>
                     </div>
                     <!-- Chat Input - Fixed Bottom -->
                     <div
@@ -314,19 +331,23 @@
                                     onchange="handleImageUpload(event)" />
                             </label>
                             <div class="flex-1 relative">
-                                <textarea
-                                    id="chat-input"
-                                    rows="1"
-                                    placeholder="Ketik pesan..."
-                                    class="w-full px-4 py-2.5 card-bg border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm"
+                                <textarea id="chat-input" rows="1" placeholder="Ketik pesan..." class="w-full px-4 py-2.5 card-bg border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm"
+                                    style="max-height: 100px" onkeydown="handleKeyDown(event)"></textarea>
+                                <!-- <textarea id="chat-input" rows="1" placeholder="Ketik pesan..." class="w-full px-4 py-2.5 card-bg border rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-opacity-50 text-sm"
                                     style="max-height: 100px"
-                                    onkeydown="handleKeyDown(event)"></textarea>
+                                    onkeydown="handleKeyDown(event)">
+                                </textarea> -->
                             </div>
                             <button
-                                onclick="sendMessage()"
+
                                 class="w-10 h-10 primary-bg text-white rounded-full flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
+                            <!-- <button
+                                onclick="sendMessage()"
+                                class="w-10 h-10 primary-bg text-white rounded-full flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0">
+                                <i class="fas fa-paper-plane"></i>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -378,15 +399,7 @@
                         <p class="font-bold">Chat History</p>
                         <p class="text-xs text-muted">Pilih atau cari riwayat chat</p>
                     </div>
-                    <button
-                        type="button"
-                        onclick="
-              newChat();
-              toggleHistoryDrawer(false);
-            "
-                        class="px-3 py-2 rounded-xl primary-bg text-white text-xs font-medium hover:opacity-90 transition-opacity">
-                        <i class="fas fa-plus mr-1"></i> New
-                    </button>
+
                 </div>
 
                 <div class="p-4 border-b">
@@ -404,6 +417,19 @@
 
                 <div id="history-list" class="flex-1 overflow-y-auto p-2">
                     <!-- rendered by JS -->
+                    <?php foreach ($history_recents_user as $recent): ?>
+                        <button type="button" onclick="loadChatHistoryById(<?= $recent['id_recents'] ?>); toggleHistoryDrawer(false);" class="w-full text-left p-3 rounded-2xl border mb-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors <?php echo $recent['id_recents'] === $id_recents ? 'primary-bg text-white' : 'text-muted'; ?>" fdprocessedid="znfvk">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 <?= $recent['id_recents'] !== $id_recents ? 'primary-bg' : 'bg-white/20' ?>">
+                                    <i class="fas fa-message text-white"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold text-sm truncate"><?= $recent['judul_recents'] ?></p>
+
+                                </div>
+                            </div>
+                        </button>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="p-3 border-t text-xs text-muted">

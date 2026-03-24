@@ -12,6 +12,7 @@
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet" />
     <link href="<?= base_url('assets/css/modal.css') ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?= base_url('assets/css/notify_ai.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/previewimg.css') ?>">
     <style>
         #edit-profile-modal .text-muted {
             color: rgb(107 114 128);
@@ -88,6 +89,136 @@
         .empty-image-remove:hover {
             background: #5a1420;
             transform: scale(1.1);
+        }
+
+        /* === WARDROBE CARD === */
+        .wc-section {
+            margin-bottom: 32px;
+        }
+
+        .wc-cat-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .wc-cat-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .wc-cat-count {
+            font-size: 10px;
+            color: #fff;
+            background: #7B1E2B;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .wc-line {
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .dark .wc-line {
+            background: #374151;
+        }
+
+        .wc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .wc-card {
+            background: #EEF0F8;
+            /* soft lavender — ganti #F5EDEF untuk tema maroon */
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dark .wc-card {
+            background: #1e2030;
+            border-color: #374151;
+        }
+
+        .wc-card-header {
+            padding: 10px 12px 7px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark .wc-card-header {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .wc-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wc-sub {
+            font-size: 10px;
+            color: #9ca3af;
+            margin: 2px 0 0;
+        }
+
+        .wc-card-inner {
+            padding: 10px;
+        }
+
+        .wc-img-wrap {
+            width: 100%;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #EEF0F8;
+            /* bg supaya area kosong tidak polos putih */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wc-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* ← gambar penuh, tidak terpotong */
+        }
+
+        .wc-remove {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #7B1E2B;
+            color: #fff;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .wc-card:hover .wc-remove {
+            opacity: 1;
         }
     </style>
 </head>

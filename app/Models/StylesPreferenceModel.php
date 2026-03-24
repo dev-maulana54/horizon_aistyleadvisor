@@ -17,4 +17,14 @@ class StylesPreferenceModel extends Model
     {
         return $this->findAll();
     }
+    public function get_style_preferences_user($user_id)
+    {
+        $builder = $this->db->table('style_preferences');
+        $builder->select('id_styles');
+        $builder->where('id_user', $user_id);
+
+        $result = $builder->get()->getResultArray();
+
+        return $result ? array_column($result, 'id_styles') : null;
+    }
 }

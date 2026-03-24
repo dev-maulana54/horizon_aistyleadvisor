@@ -272,7 +272,7 @@
                                         name="body_shape"
                                         value="<?= $b_shape['jenis_b_shape'] ?>"
                                         class="hidden peer body-shape-input"
-                                        onchange="updateBodyShapeUI()" />
+                                        onchange="updateBodyShapeUI()" <?= ($id_body_shape_user == $b_shape['id']) ? 'checked' : '' ?> />
                                     <div
                                         class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-pink-500 group-hover:border-gray-300 transition-all">
                                         <img
@@ -293,7 +293,7 @@
                     </div>
                     <div class="card-bg rounded-2xl p-6 shadow-md mb-6">
                         <h4 class="font-semibold mb-4">
-                            🎨 Style Preferences (Select multiple)
+                            🎨 Style Preferences (Select multiple) <?= is_array($id_styles_user) ? implode(', ', $id_styles_user) : $id_styles_user ?>
                         </h4>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                             <?php foreach ($styles as $style) : ?>
@@ -304,7 +304,7 @@
                                         name="style_pref"
                                         value="<?= $style['style_name'] ?>"
                                         class="hidden peer style-pref-input"
-                                        onchange="updateStylePrefUI()" />
+                                        onchange="updateStylePrefUI()" <?= is_array($id_styles_user) && in_array($style['id'], $id_styles_user) ? 'checked' : '' ?> />
                                     <div
                                         class="relative w-full aspect-square rounded-lg overflow-hidden border-3 border-transparent peer-checked:border-gray-600 group-hover:border-gray-300 transition-all">
                                         <img
@@ -341,10 +341,10 @@
                         </h4>
                         <!-- Category Buttons -->
                         <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
-                            <?php foreach ($type_wardrobe as  $type) : ?>
+                            <?php foreach ($type_wardrobe as $index => $type) : ?>
                                 <button
                                     onclick="switchWardrobeCategory('<?= $type['type_wardrobe'] ?>', this)"
-                                    class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all"
+                                    class="wardrobe-category-btn whitespace-nowrap px-4 py-2 rounded-xl border-2 font-medium transition-all <?= $index === 0 ? 'active' : '' ?>"
                                     data-category="<?= $type['type_wardrobe'] ?>" data-id="<?= $type['id'] ?>">
                                     <?= $type['type_wardrobe'] ?>
                                 </button>
@@ -366,7 +366,7 @@
                                         type="file"
                                         id="wardrobe-upload"
                                         accept="image/*"
-                                        name="wardrobe_images"
+                                        name="wardrobe_images[]"
                                         multiple
                                         onchange="handleWardrobeImageUpload(event)"
                                         class="hidden" />
@@ -391,42 +391,31 @@
                             </div>
                         </div>
                         <!-- Items Display -->
-                        <div id="empty-wardrobe" class="text-center py-8">
-                            <div id="empty-image-list" class="empty-image-list">
+                        <div id="empty-wardrobe" class="py-2">
 
-                                <div class="empty-image-item">
-                                    <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=500&q=80" alt="shirt">
-                                    <button class="empty-image-remove">×</button>
+                            <!-- Tops -->
+                            <div class="wc-section">
+
+                                <div class="wc-grid" id="wardrobe-container">
+                                    <p style="grid-column: 1 / -1;"> Data Wardrobe tidak ada ...</p>
                                 </div>
-
-                                <div class="empty-image-item">
-                                    <img src="https://images.unsplash.com/photo-1602810316693-3667c854239a?auto=format&fit=crop&w=500&q=80" alt="shirt">
-                                    <button class="empty-image-remove">×</button>
-                                </div>
-
-                                <div class="empty-image-item">
-                                    <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500&q=80" alt="pants">
-                                    <button class="empty-image-remove">×</button>
-                                </div>
-
                             </div>
-                            <!-- <i class="fas fa-inbox text-4xl text-muted opacity-30 mb-2"></i>
-                            <p class="text-muted text-sm">
-                                No items yet. Add your first
-                                <span id="category-empty" class="lowercase">shirt</span>!
-                            </p> -->
+
+                            <!-- Outer — duplikasi blok di atas untuk setiap kategori -->
+
                         </div>
-                        <div
-                            id="wardrobe-items"
-                            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full"></div>
+
+                    </div>
+                    <div id="wardrobe-items" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full">
                     </div>
                 </div>
             </div>
-            <!-- Personal Data Tab -->
-
-            <!-- Wardrobe Tab -->
-
         </div>
+        <!-- Personal Data Tab -->
+
+        <!-- Wardrobe Tab -->
+
+    </div>
     </div>
     <!-- Mobile Bottom Navigation -->
     <nav

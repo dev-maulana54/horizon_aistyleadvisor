@@ -17,4 +17,21 @@ class BodyShapeUserModel extends Model
     {
         return $this->findAll();
     }
+    public function getId_body_shape_user($user_id)
+    {
+        $builder = $this->db->table('body_shape_user');
+        $builder->select('id_body_shape');
+        $builder->where('id_user', $user_id);
+
+        $result = $builder->get()->getRowArray();
+
+        return $result ? $result['id_body_shape'] : null;
+    }
+
+    public function checkUserHasBodyShape($user_id)
+    {
+        $builder = $this->db->table('body_shape_user');
+        $builder->where('id_user', $user_id);
+        return $builder->get()->getRowArray(); // return array atau null
+    }
 }

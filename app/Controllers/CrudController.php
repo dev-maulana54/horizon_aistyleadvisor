@@ -164,9 +164,8 @@ class CrudController extends Controller
                 ]);
             }
 
-            $namaItem = trim($this->request->getPost('nama_item'));
+            $namaItem        = trim($this->request->getPost('nama_item'));
             $idJenisWardrobe = $this->request->getPost('id_jenis_wardrobe');
-            $files = $this->request->getFiles();
 
             if (empty($namaItem)) {
                 return $this->response->setJSON([
@@ -182,22 +181,20 @@ class CrudController extends Controller
                 ]);
             }
 
-            if (!isset($files['wardrobe_images'])) {
+            // Ambil file
+            $uploadedFiles = $this->request->getFileMultiple('wardrobe_images');
+
+            if (empty($uploadedFiles)) {
                 return $this->response->setJSON([
                     'status'  => false,
                     'message' => 'File gambar tidak ditemukan'
                 ]);
             }
 
-            $uploadedFiles = $this->request->getFileMultiple('wardrobe_images');
-
-            if (!is_array($uploadedFiles)) {
-                $uploadedFiles = [$uploadedFiles];
-            }
-
+            // Filter hanya file valid
             $validFiles = [];
             foreach ($uploadedFiles as $file) {
-                if ($file && $file->isValid()) {
+                if ($file && $file->isValid() && !$file->hasMoved()) {
                     $validFiles[] = $file;
                 }
             }
@@ -211,54 +208,39 @@ class CrudController extends Controller
 
             $allowedMime = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
 
-            // cek existing berdasarkan user + jenis wardrobe
-            $existingWardrobe = $db_wardrobe
+            // Cek jumlah data existing berdasarkan user + jenis wardrobe
+            $totalExisting = $db_wardrobe
                 ->where('id_user', $idUser)
                 ->where('id_jenis_wardrobe', $idJenisWardrobe)
-                ->first();
+                ->countAllResults();
 
-            $existingData = [];
+            $newUploadCount  = count($validFiles);
+            $totalAfterUpload = $totalExisting + $newUploadCount;
 
-            if ($existingWardrobe && !empty($existingWardrobe['file_name'])) {
-                $decoded = json_decode($existingWardrobe['file_name'], true);
-                if (is_array($decoded)) {
-                    $existingData = $decoded;
-                }
-            }
-
-            // hitung total file lama
-            $totalExistingFiles = 0;
-            foreach ($existingData as $item) {
-                if (isset($item['files']) && is_array($item['files'])) {
-                    $totalExistingFiles += count($item['files']);
-                }
-            }
-
-            $newUploadCount = count($validFiles);
-            $totalAfterUpload = $totalExistingFiles + $newUploadCount;
-
-            if ($totalExistingFiles >= 5) {
+            if ($totalExisting >= 5) {
                 return $this->response->setJSON([
                     'status'  => false,
-                    'message' => 'Maksimal 5 gambar sudah tercapai, tidak bisa menambah lagi'
+                    'message' => 'Maksimal 5 item sudah tercapai untuk kategori ini'
                 ]);
             }
 
             if ($totalAfterUpload > 5) {
                 return $this->response->setJSON([
                     'status'  => false,
-                    'message' => 'Total gambar melebihi batas maksimal 5'
+                    'message' => "Tidak bisa upload {$newUploadCount} item, sisa slot hanya " . (5 - $totalExisting)
                 ]);
             }
 
-            $uploadPath = WRITEPATH . 'uploads/wardrobe/';
+            // Siapkan direktori upload
+            $uploadPath = FCPATH  . 'uploads/wardrobe/';
             if (!is_dir($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
             }
 
-            $savedFileNames = [];
+            // Loop file, validasi mime, pindahkan, siapkan batch data
+            $batchData = [];
 
-            foreach ($validFiles as $index => $file) {
+            foreach ($validFiles as $file) {
                 $mime = $file->getMimeType();
 
                 if (!in_array($mime, $allowedMime)) {
@@ -268,63 +250,38 @@ class CrudController extends Controller
                     ]);
                 }
 
-                $originalName = pathinfo($file->getClientName(), PATHINFO_FILENAME);
+                $originalName     = pathinfo($file->getClientName(), PATHINFO_FILENAME);
                 $safeOriginalName = preg_replace('/[^A-Za-z0-9_-]/', '_', strtolower($originalName));
-                $extension = strtolower($file->getExtension());
-
-                // format: fixmatchai_(nama file)
-                $newName = 'fixmatchai_' . $safeOriginalName . '_' . time() . '_' . uniqid() . '.' . $extension;
+                $extension        = strtolower($file->getExtension());
+                $newName          = 'fixmatchai_' . $safeOriginalName . '_' . time() . '_' . uniqid() . '.' . $extension;
 
                 $file->move($uploadPath, $newName);
-                $savedFileNames[] = $newName;
-            }
 
-            if (empty($savedFileNames)) {
-                return $this->response->setJSON([
-                    'status'  => false,
-                    'message' => 'Tidak ada file yang berhasil diupload'
-                ]);
-            }
-
-            // object baru yang akan ditambahkan ke array JSON
-            $newEntry = [
-                'nama_item' => $namaItem,
-                'files'     => $savedFileNames
-            ];
-
-            if ($existingWardrobe) {
-                // append data baru, bukan replace
-                $existingData[] = $newEntry;
-
-                $updateData = [
-                    'file_name' => json_encode($existingData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
-                    'update_at' => date('Y-m-d H:i:s'),
-                ];
-
-                $db_wardrobe->update($existingWardrobe['id'], $updateData);
-
-                return $this->response->setJSON([
-                    'status'  => true,
-                    'message' => 'Data wardrobe berhasil ditambahkan',
-                    'data'    => $existingData
-                ]);
-            } else {
-                $data = [
+                // Setiap file = 1 row di database
+                $batchData[] = [
                     'id_user'           => $idUser,
                     'id_jenis_wardrobe' => $idJenisWardrobe,
-                    'nama_item'         => null, // karena nama_item sekarang masuk ke JSON
-                    'file_name'         => json_encode([$newEntry], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                    'nama_item'         => $namaItem,
+                    'file_name'         => $newName,
                     'update_at'         => date('Y-m-d H:i:s'),
                 ];
+            }
 
-                $db_wardrobe->insert($data);
-
+            if (empty($batchData)) {
                 return $this->response->setJSON([
-                    'status'  => true,
-                    'message' => 'Wardrobe berhasil disimpan',
-                    'data'    => $data
+                    'status'  => false,
+                    'message' => 'Tidak ada file yang berhasil diproses'
                 ]);
             }
+
+            // Insert batch — 1 file = 1 row, N file = N rows sekaligus
+            $db_wardrobe->insertBatch($batchData);
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => count($batchData) . ' item wardrobe berhasil disimpan',
+                'data'    => $batchData
+            ]);
         } catch (\Throwable $e) {
             return $this->response->setJSON([
                 'status'  => false,
@@ -332,5 +289,12 @@ class CrudController extends Controller
                 'error'   => $e->getMessage()
             ]);
         }
+    }
+    public function getWardrobeUser($id_type_wardrobe)
+    {
+        $wardrobe = new Wardrobe();
+        $data = $wardrobe->getWardrobeByType($id_type_wardrobe);
+
+        return $this->response->setJSON($data);
     }
 }

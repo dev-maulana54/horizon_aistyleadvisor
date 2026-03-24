@@ -1,0 +1,116 @@
+.preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+.preview-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.preview-overlay img {
+  max-width: 90%;
+  max-height: 85%;
+  border-radius: 12px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.preview-overlay.active img {
+  transform: scale(1);
+}
+.preview-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.preview-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+[data-preview] {
+  cursor: zoom-in;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+[data-preview]:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+code,
+pre {
+  font-family: "JetBrains Mono", monospace;
+}
+pre {
+  overflow-x: auto;
+}
+.code-block {
+  background: #0d1117;
+  color: #e6edf3;
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  border: 1px solid #1e2733;
+}
+.code-block .tag {
+  color: #7ee787;
+}
+.code-block .attr {
+  color: #d2a8ff;
+}
+.code-block .str {
+  color: #a5d6ff;
+}
+.code-block .cmt {
+  color: #6e7681;
+  font-style: italic;
+}
+.code-block .kw {
+  color: #ff7b72;
+}
+.code-block .fn {
+  color: #d2a8ff;
+}
+.code-block .lit {
+  color: #79c0ff;
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.demo-grid img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}

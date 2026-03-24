@@ -7,11 +7,13 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Summary::index');
 $routes->get('/summary', 'Summary::index');
-$routes->get('/ai', 'ChatAI::index');
 $routes->get('/settings', 'Settings::index');
 
 
-
+#Chat AI
+$routes->get('/ai', 'ChatAI::index');
+$routes->get('/ai/(:segment)', 'ChatAI::loadChat/$1');
+$routes->post('/ai/send', 'ChatAI::sendMessage');
 
 # Auth
 $routes->get('/user/login', 'Auth::login');
@@ -22,7 +24,10 @@ $routes->get('/user/logout', 'Auth::logout');
 # API
 $routes->post('/auth/register', 'Auth::reg');
 $routes->post('/auth/process_login', 'Auth::processLogin');
+$routes->get('getWardrobeUser/(:num)', 'CrudController::getWardrobeUser/$1');
 
+#FEATURE
+$routes->get('/ai_tryon', 'Ai_tryon::index');
 
 #settings
 $routes->post('/settings/updatePersonalData', 'CrudController::updatePersonalData');

@@ -56,6 +56,8 @@ function showPage(page) {
     window.location.href = baseUrl + "settings";
   } else if (page == "logout") {
     window.location.href = baseUrl + "user/logout";
+  } else if (page == "tryon") {
+    window.location.href = baseUrl + "ai_tryon";
   }
 }
 
@@ -617,78 +619,78 @@ function toggleHistoryDrawer(open) {
   if (!drawer) return;
   if (open) {
     drawer.classList.remove("hidden");
-    renderHistoryList(document.getElementById("history-search")?.value || "");
-    // sync inline search to drawer search
-    const inlineVal =
-      document.getElementById("history-search-inline")?.value || "";
-    const hs = document.getElementById("history-search");
-    if (hs && inlineVal && !hs.value) {
-      hs.value = inlineVal;
-      renderHistoryList(hs.value);
-    }
+    // renderHistoryList(document.getElementById("history-search")?.value || "");
+    // // sync inline search to drawer search
+    // const inlineVal =
+    //   document.getElementById("history-search-inline")?.value || "";
+    // const hs = document.getElementById("history-search");
+    // if (hs && inlineVal && !hs.value) {
+    //   hs.value = inlineVal;
+    //   renderHistoryList(hs.value);
+    // }
   } else {
     drawer.classList.add("hidden");
   }
 }
 
-function renderHistoryList(query = "") {
-  const q = (query || "").toLowerCase().trim();
+// function renderHistoryList(query = "") {
+//   const q = (query || "").toLowerCase().trim();
 
-  // keep both search inputs in sync
-  const drawerInput = document.getElementById("history-search");
-  const inlineInput = document.getElementById("history-search-inline");
-  if (
-    drawerInput &&
-    drawerInput.value !== query &&
-    document.activeElement !== drawerInput
-  )
-    drawerInput.value = query;
-  if (
-    inlineInput &&
-    inlineInput.value !== query &&
-    document.activeElement !== inlineInput
-  )
-    inlineInput.value = query;
+//   // keep both search inputs in sync
+//   const drawerInput = document.getElementById("history-search");
+//   const inlineInput = document.getElementById("history-search-inline");
+//   if (
+//     drawerInput &&
+//     drawerInput.value !== query &&
+//     document.activeElement !== drawerInput
+//   )
+//     drawerInput.value = query;
+//   if (
+//     inlineInput &&
+//     inlineInput.value !== query &&
+//     document.activeElement !== inlineInput
+//   )
+//     inlineInput.value = query;
 
-  const list = document.getElementById("history-list");
-  if (!list) return;
+//   const list = document.getElementById("history-list");
+//   if (!list) return;
 
-  const items = [...chatHistories]
-    .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
-    .filter((h) => {
-      if (!q) return true;
-      return (
-        (h.title || "").toLowerCase().includes(q) ||
-        (h.preview || "").toLowerCase().includes(q)
-      );
-    });
+//   const items = [...chatHistories]
+//     .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0))
+//     .filter((h) => {
+//       if (!q) return true;
+//       return (
+//         (h.title || "").toLowerCase().includes(q) ||
+//         (h.preview || "").toLowerCase().includes(q)
+//       );
+//     });
 
-  if (items.length === 0) {
-    list.innerHTML = `<div class="p-4 text-center text-sm text-muted">Tidak ada history yang cocok.</div>`;
-    return;
-  }
+//   if (items.length === 0) {
+//     list.innerHTML = `<div class="p-4 text-center text-sm text-muted">Tidak ada history yang cocok.</div>`;
+//     return;
+//   }
 
-  list.innerHTML = items
-    .map((h) => {
-      const active = selectedHistory && selectedHistory.id === h.id;
-      return `
-          <button type="button"
-            onclick="loadChatHistoryById(${h.id}); toggleHistoryDrawer(false);"
-            class="w-full text-left p-3 rounded-2xl border mb-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${active ? "primary-bg text-white border-transparent" : ""}">
-            <div class="flex items-start gap-3">
-              <div class="w-9 h-9 rounded-xl ${active ? "bg-white/20" : "primary-bg"} flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-message ${active ? "text-white" : "text-white"}"></i>
-              </div>
-              <div class="flex-1 min-w-0">
-                <p class="font-semibold text-sm truncate">${escapeHtml(h.title || "Chat")}</p>
-                <p class="text-xs ${active ? "text-white/80" : "text-muted"} line-clamp-2 mt-0.5">${escapeHtml(h.preview || "")}</p>
-              </div>
-            </div>
-          </button>
-        `;
-    })
-    .join("");
-}
+//   list.innerHTML = items
+//     .map((h) => {
+//       const active = selectedHistory && selectedHistory.id === h.id;
+//       return `
+//           <button type="button"
+//             onclick="loadChatHistoryById(${h.id}); toggleHistoryDrawer(false);"
+//             class="w-full text-left p-3 rounded-2xl border mb-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${active ? "primary-bg text-white border-transparent" : ""}">
+//             <div class="flex items-start gap-3">
+//               <div class="w-9 h-9 rounded-xl ${active ? "bg-white/20" : "primary-bg"} flex items-center justify-center flex-shrink-0">
+//                 <i class="fas fa-message ${active ? "text-white" : "text-white"}"></i>
+//               </div>
+//               <div class="flex-1 min-w-0">
+//                 <p class="font-semibold text-sm truncate">${escapeHtml(h.title || "Chat")}</p>
+//                 <p class="text-xs ${active ? "text-white/80" : "text-muted"} line-clamp-2 mt-0.5">${escapeHtml(h.preview || "")}</p>
+//               </div>
+//             </div>
+//           </button>
+//         `;
+//     })
+//     .join("");
+// }
 
 function loadChatHistoryById(id) {
   const history = chatHistories.find((h) => h.id === id);
@@ -697,22 +699,23 @@ function loadChatHistoryById(id) {
 }
 
 function newChat() {
-  const newId = Date.now();
-  const history = {
-    id: newId,
-    title: "Chat baru",
-    preview: "Mulai percakapan baru...",
-    updatedAt: Date.now(),
-  };
-  chatHistories.unshift(history);
-  chatMessagesByHistory[newId] = [];
+  window.history.pushState({}, "", "/ai/");
+  // const newId = Date.now();
+  // const history = {
+  //   id: newId,
+  //   title: "Chat baru",
+  //   preview: "Mulai percakapan baru...",
+  //   updatedAt: Date.now(),
+  // };
+  // chatHistories.unshift(history);
+  // chatMessagesByHistory[newId] = [];
 
-  selectedHistory = history;
-  resetChatUIToHistory(history);
-  showToast("✨ New chat created");
-  renderHistoryList(
-    document.getElementById("history-search-inline")?.value || "",
-  );
+  // selectedHistory = history;
+  // resetChatUIToHistory(history);
+  // showToast("✨ New chat created");
+  // renderHistoryList(
+  //   document.getElementById("history-search-inline")?.value || "",
+  // );
 }
 
 function resetChatUIToHistory(history) {
@@ -740,37 +743,163 @@ function resetChatUIToHistory(history) {
 }
 
 // ========== CHAT FUNCTIONS ==========
-function sendMessage() {
+let currentSlug = null;
+let currentIdRecents = null;
+
+async function sendMessage() {
   const input = document.getElementById("chat-input");
   const message = input.value.trim();
 
   if (!message && !uploadedImage) return;
 
-  // Ensure there is a selected history
   if (!selectedHistory) {
     newChat();
   }
 
   const chatContainer = document.getElementById("chat-messages");
 
-  // Save & append user message
+  // Tampilkan pesan user di UI
   appendMessageToUI("user", message, uploadedImage, true);
-
-  // Update history title & preview on first message
   updateHistoryOnUserMessage(message);
 
-  // Clear input and image
+  // Clear input dan image
   input.value = "";
   removeImagePreview();
-
-  // Scroll to bottom
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  // Simulate AI response
-  setTimeout(() => {
-    addAIResponse(message);
-  }, 1000);
+  // Kirim ke backend CI4
+  const formData = new FormData();
+  formData.append("message", message);
+  formData.append("id_recents", currentIdRecents ?? "");
+  formData.append("slug", currentSlug ?? "");
+
+  // Tampilkan typing indicator
+  const typingDiv = document.createElement("div");
+  typingDiv.className = "flex gap-3 fade-in typing-msg";
+  typingDiv.innerHTML = `
+        <div class="w-8 h-8 primary-bg rounded-full flex-shrink-0 flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <div class="chat-bubble-ai p-4">
+          <div class="typing-indicator text-primary">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+    `;
+  chatContainer.appendChild(typingDiv);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  try {
+    const res = await fetch("/ai/send", {
+      method: "POST",
+      body: formData,
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+
+    const data = await res.json();
+
+    if (!data.success) throw new Error("Gagal");
+
+    // Jika chat baru, update URL tanpa reload
+    if (!currentSlug) {
+      currentSlug = data.slug;
+      currentIdRecents = data.id_recents;
+      window.history.pushState({}, "", data.redirect);
+    }
+
+    // Generate gambar outfit
+    let images = generateOutfitImages(message);
+    const imagesJSON = JSON.stringify(images).replace(/"/g, "&quot;");
+
+    // Replace typing indicator dengan response AI
+    const bubble = typingDiv.querySelector(".chat-bubble-ai");
+    bubble.innerHTML = `
+            <div class="grid grid-cols-3 gap-2 mb-3 w-full" id="outfit-grid">
+              ${images
+                .map(
+                  (img, idx) => `
+                <button type="button" onclick="openImageModal(${idx}, ${imagesJSON})" class="relative group w-full aspect-square rounded-lg overflow-hidden border-0 p-0 cursor-pointer hover:shadow-lg transition-all">
+                  <img src="${img.url}" alt="${img.title}" class="rounded-lg w-full h-full object-contain bg-black/5 hover:opacity-90 transition-opacity" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #7B1E2B, #9B3545)'; this.alt='Outfit';">
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors rounded-lg flex items-end p-1.5">
+                    <p class="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity text-center w-full">${img.title}</p>
+                  </div>
+                </button>
+              `,
+                )
+                .join("")}
+            </div>
+            <p class="text-sm mb-3">${data.reply}</p>
+            <div class="flex gap-2 mt-3 pt-3 border-t border-gray-200">
+              <button onclick="handleFeedback(this, 'like')" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Helpful">
+                <i class="fas fa-thumbs-up"></i>
+                <span class="like-count">0</span>
+              </button>
+              <button onclick="handleFeedback(this, 'dislike')" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Not helpful">
+                <i class="fas fa-thumbs-down"></i>
+                <span class="dislike-count">0</span>
+              </button>
+              <button onclick="handleShare(this)" class="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs text-muted" title="Share">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
+        `;
+
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    // Simpan ke local state
+    if (selectedHistory) {
+      if (!chatMessagesByHistory[currentIdRecents])
+        chatMessagesByHistory[currentIdRecents] = [];
+      chatMessagesByHistory[currentIdRecents].push({
+        role: "ai",
+        text: data.reply,
+        image: null,
+        ts: Date.now(),
+      });
+
+      const h = chatHistories.find((x) => x.id === selectedHistory.id);
+      if (h) h.updatedAt = Date.now();
+    }
+  } catch (err) {
+    const bubble = typingDiv.querySelector(".chat-bubble-ai");
+    bubble.innerHTML = `<p class="text-sm text-red-500">Gagal mendapatkan respons. Silakan coba lagi.</p>`;
+  }
 }
+// function sendMessage() {
+//   const input = document.getElementById("chat-input");
+//   const message = input.value.trim();
+
+//   if (!message && !uploadedImage) return;
+
+//   // Ensure there is a selected history
+//   if (!selectedHistory) {
+//     newChat();
+//   }
+
+//   const chatContainer = document.getElementById("chat-messages");
+
+//   // Save & append user message
+//   appendMessageToUI("user", message, uploadedImage, true);
+
+//   // Update history title & preview on first message
+//   updateHistoryOnUserMessage(message);
+
+//   // Clear input and image
+//   input.value = "";
+//   removeImagePreview();
+
+//   // Scroll to bottom
+//   chatContainer.scrollTop = chatContainer.scrollHeight;
+
+//   // Simulate AI response
+//   setTimeout(() => {
+//     addAIResponse(message);
+//   }, 1000);
+// }
 
 function updateHistoryOnUserMessage(message) {
   if (!selectedHistory) return;
@@ -787,9 +916,9 @@ function updateHistoryOnUserMessage(message) {
   }
   h.updatedAt = Date.now();
   selectedHistory = h;
-  renderHistoryList(
-    document.getElementById("history-search-inline")?.value || "",
-  );
+  // renderHistoryList(
+  //   document.getElementById("history-search-inline")?.value || "",
+  // );
 }
 
 function appendMessageToUI(role, text, image, save = true) {
@@ -1186,9 +1315,9 @@ function loadChatHistory(history) {
     }, 500);
   }
 
-  renderHistoryList(
-    document.getElementById("history-search-inline")?.value || "",
-  );
+  // renderHistoryList(
+  //   document.getElementById("history-search-inline")?.value || "",
+  // );
 }
 
 function handleKeyDown(event) {
@@ -1583,7 +1712,7 @@ window.addEventListener("load", () => {
     chatMessagesByHistory[selectedHistory.id] =
       chatMessagesByHistory[selectedHistory.id] || [];
   }
-  renderHistoryList("");
+  // renderHistoryList("");
   refreshTryOnWardrobeSelect();
 });
 
@@ -1612,7 +1741,7 @@ $(".add-wardrobe-item").click(function () {
   formData.append("id_jenis_wardrobe", idJenisWardrobe);
 
   for (let i = 0; i < files.length; i++) {
-    formData.append("wardrobe_images", files[i]);
+    formData.append("wardrobe_images[]", files[i]); // ← fix utama
   }
 
   $.ajax({
@@ -1628,13 +1757,10 @@ $(".add-wardrobe-item").click(function () {
     success: function (response) {
       $(".add-wardrobe-item").prop("disabled", false);
 
-      if (response.status) {
+      if (response.status == true) {
         showToast(response.message);
 
-        $("#item-name").val("");
-        $("#jenis-wardrobe").val("");
-        $("#wardrobe-upload").val("");
-
+        location.reload();
         console.log(response.data);
       } else {
         showToast(response.message);
