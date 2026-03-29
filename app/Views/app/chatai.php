@@ -228,9 +228,7 @@
                     </div>
 
                     <!-- Chat Messages -->
-                    <div
-                        id="chat-messages"
-                        class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 lg:pb-28">
+                    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 lg:pb-28">
 
                         <?php if (!empty($slug)) : ?>
                             <?php foreach ($history as $message): ?>
@@ -298,7 +296,13 @@
                             <?php endforeach; ?>
                         <?php else : ?>
                             <!-- AI Welcome Message -->
+                            <div class="chat-bubble-ai p-4 max-w-xs lg:max-w-md">
 
+                                <p class="text-sm">
+                                    Halo! 👋 Saya AI Style Assistant. Saya bisa bantu kamu memilih outfit yang cocok untuk berbagai acara. Mau pergi ke mana hari ini?
+                                </p>
+
+                            </div>
                         <?php endif; ?>
                     </div>
                     <!-- Chat Input - Fixed Bottom -->
@@ -338,11 +342,17 @@
                                     onkeydown="handleKeyDown(event)">
                                 </textarea> -->
                             </div>
+
                             <button
+                                onclick="sendMessage()"
+                                class="send-btn w-10 h-10 primary-bg text-white rounded-full ...">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                            <!-- <button
 
                                 class="w-10 h-10 primary-bg text-white rounded-full flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0">
                                 <i class="fas fa-paper-plane"></i>
-                            </button>
+                            </button> -->
                             <!-- <button
                                 onclick="sendMessage()"
                                 class="w-10 h-10 primary-bg text-white rounded-full flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0">
@@ -416,16 +426,18 @@
                 </div>
 
                 <div id="history-list" class="flex-1 overflow-y-auto p-2">
-                    <!-- rendered by JS -->
                     <?php foreach ($history_recents_user as $recent): ?>
-                        <button type="button" onclick="loadChatHistoryById(<?= $recent['id_recents'] ?>); toggleHistoryDrawer(false);" class="w-full text-left p-3 rounded-2xl border mb-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors <?php echo $recent['id_recents'] === $id_recents ? 'primary-bg text-white' : 'text-muted'; ?>" fdprocessedid="znfvk">
+                        <button
+                            type="button"
+                            onclick="loadChatBySlug('<?= $recent['slug'] ?>'); toggleHistoryDrawer(false);"
+                            data-slug="<?= $recent['slug'] ?>"
+                            class="history-item w-full text-left p-3 rounded-2xl border mb-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors <?= $recent['slug'] === ($slug ?? '') ? 'primary-bg text-white' : 'text-muted' ?>">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 <?= $recent['id_recents'] !== $id_recents ? 'primary-bg' : 'bg-white/20' ?>">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 <?= $recent['slug'] === ($slug ?? '') ? 'bg-white/20' : 'primary-bg' ?>">
                                     <i class="fas fa-message text-white"></i>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-sm truncate"><?= $recent['judul_recents'] ?></p>
-
+                                    <p class="font-semibold text-sm truncate"><?= esc($recent['judul_recents']) ?></p>
                                 </div>
                             </div>
                         </button>

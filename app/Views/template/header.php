@@ -221,6 +221,17 @@
             opacity: 1;
         }
     </style>
+
+    <meta name="oai" content="<?= htmlspecialchars(env('OPENAI_API_KEY'), ENT_QUOTES) ?>">
+    <script>
+        window.__INIT_SLUG__ = <?= json_encode($slug ?? null) ?>;
+        window.__INIT_ID_RECENTS__ = <?= json_encode($id_recents ?? null) ?>;
+        window.__CHAT_HISTORY__ = <?= json_encode(array_map(fn($h) => [
+                                        'role'         => (int)$h['role'],
+                                        'conversation' => $h['conversation'],
+                                    ], $history ?? [])) ?>;
+        window.__USER_DATA__ = <?= $user_data_json ?? 'null' ?>; // ← TAMBAHKAN INI
+    </script>
 </head>
 
 <body class="h-full light-mode">

@@ -279,3 +279,37 @@ body {
     transform: translateY(0);
   }
 }
+/* Perlebar bubble chat */
+.chat-bubble-user,
+.chat-bubble-ai {
+  max-width: min(85vw, 520px); /* lebih lebar dari sebelumnya */
+}
+
+/* Outfit card */
+.outfit-card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s ease;
+}
+.outfit-card:hover {
+  box-shadow: 0 4px 20px rgba(123, 30, 43, 0.12);
+}
+.outfit-card img {
+  display: block;
+}
+
+/* Fix list spacing di markdown — hapus margin berlebih */
+.chat-bubble-ai ul,
+.chat-bubble-ai ol {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-left: 1rem;
+}
+.chat-bubble-ai ul li,
+.chat-bubble-ai ol li {
+  margin-bottom: 2px;
+  line-height: 1.5;
+}
+.chat-bubble-ai p + ul,
+.chat-bubble-ai p + ol {
+  margin-top: 2px;
+}

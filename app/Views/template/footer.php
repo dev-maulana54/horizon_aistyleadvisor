@@ -4,6 +4,7 @@
 <script src="<?= base_url('assets/js/modal.js') ?>"></script>
 <script src="<?= base_url('assets/js/notify_ai.js') ?>"></script>
 <script src="<?= base_url('assets/js/previewimg.js') ?>"></script>
+<script src="<?= base_url('assets/js/chat.js') ?>"></script>
 <script>
     const baseUrl = "<?= base_url() ?>";
 </script>

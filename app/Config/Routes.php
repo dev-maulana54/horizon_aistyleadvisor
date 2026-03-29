@@ -13,8 +13,10 @@ $routes->get('/settings', 'Settings::index');
 #Chat AI
 $routes->get('/ai', 'ChatAI::index');
 $routes->get('/ai/(:segment)', 'ChatAI::loadChat/$1');
+$routes->post('ai/upload-image',         'ChatAI::uploadImage');
+$routes->post('ai/save-generated-image', 'ChatAI::saveGeneratedImage'); // BARU: proxy download+blur
 $routes->post('/ai/send', 'ChatAI::sendMessage');
-
+$routes->get('ai/proxy-image', 'ChatAI::proxyImage'); // BARU: proxy wardrobe image untuk gpt-image-1
 # Auth
 $routes->get('/user/login', 'Auth::login');
 $routes->post('/user/login', 'Auth::authenticate');
